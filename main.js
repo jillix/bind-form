@@ -1,4 +1,4 @@
-define(["./bind"], function(Bind){
+define(["adioo/bind/bind"], function(Bind){
     
     var Form = {
         
