@@ -4,8 +4,6 @@ define(["adioo/bind/bind"], function(Bind) {
         
         fill: function(data) {
             
-            this.reset();
-            
             for (var i = 0, l = this.form.elements.length; i < l; ++i) {
                 
                 if (data[this.form.elements[i].name]) {
@@ -23,7 +21,7 @@ define(["adioo/bind/bind"], function(Bind) {
         
         save: function() {
             
-            this.link("saveData", {data: new FormData(this.form)});
+            
         }
     };
     
@@ -38,20 +36,21 @@ define(["adioo/bind/bind"], function(Bind) {
             return null;
         }
         
-        form.obs.l(config.fill || "fill", function(data) {
+        if (config.fillForm) {
             
-            form.fill(data);
-        });
-        
-        form.obs.l(config.reset || "reset", function() {
+            form.obs.l(config.fillForm, function(data) {
                 
-            form.reset();
-        });
+                form.fill(data);
+            });
+        }
         
-        form.obs.l(config.save || "save", function() {
+        if (config.resetForm) {
             
-            form.save();
-        });
+            form.obs.l(config.resetForm, function() {
+                
+                form.reset();
+            });
+        }
         
         return form;
     };
