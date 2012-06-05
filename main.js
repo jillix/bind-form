@@ -1,4 +1,4 @@
-define(["adioo/bind/bind"], function(Bind) {
+define(["adioo/bind/bind", "adioo/list/main"], function(Bind, List) {
     
     var Form = {
         
@@ -10,10 +10,22 @@ define(["adioo/bind/bind"], function(Bind) {
                 
                 if (data[this.form.elements[i].name]) {
                     
+                    if (typeof data[this.form.elements[i].name] === "object") {
+                        
+                        data[this.form.elements[i].name] = JSON.stringify(data[this.form.elements[i].name]);
+                    }
+                    
                     //fill data
                     this.form.elements[i].value = data[this.form.elements[i].name];
                 }
             }
+            
+            if (this.noSelection) {
+                
+                this.noSelection.style.display = "none";
+            }
+            
+            this.form.style.display = "block";
         },
         
         reset: function() {
@@ -32,8 +44,9 @@ define(["adioo/bind/bind"], function(Bind) {
         var form = N.clone(Form, this);
         
         form.form = form.dom.querySelector("form");
+        form.noSelection = form.dom.querySelector(".noVertexSelected");
         
-        if (!form.dom) {
+        if (!form.form) {
             
             return null;
         }
