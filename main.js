@@ -1,4 +1,35 @@
-define(["adioo/bind/bind", "adioo/list/main"], function(Bind, List) {
+/*
+    config = {
+        
+        // form element
+        form: "#selector",
+        emtpy: "#selector",
+        
+        // observer events
+        fill: "eventName",
+        set: "eventName",
+        save: "eventName",
+        reset: "eventName",
+        
+        // operations (source object)
+        save: {},
+        remove: {},
+        
+        // form field configs
+        fields: [
+            {
+                type: "input",
+                //...
+            },
+            {
+                type: "itemselect",
+                //...
+            }
+        ]
+    }
+*/
+    
+define(function() {
     
     var Form = {
         
@@ -6,9 +37,11 @@ define(["adioo/bind/bind", "adioo/list/main"], function(Bind, List) {
             
             this.reset();
             
-            for (var i = 0, l = this.form.elements.length; i < l; ++i) {
+            for (var i = 0, l = this.form.elements.length, elm; i < l; ++i) {
                 
-                if (data[this.form.elements[i].name]) {
+                elm = this.form.elements[i];
+                
+                if (data[elm.name]) {
                     
                     if (typeof data[this.form.elements[i].name] === "object") {
                         
@@ -20,12 +53,17 @@ define(["adioo/bind/bind", "adioo/list/main"], function(Bind, List) {
                 }
             }
             
-            if (this.noSelection) {
+            if (this.empty) {
                 
-                this.noSelection.style.display = "none";
+                this.empty.style.display = "none";
             }
             
             this.form.style.display = "block";
+        },
+        
+        set: function(itemName, value) {
+            
+            // set a value in a field
         },
         
         reset: function() {
@@ -33,9 +71,19 @@ define(["adioo/bind/bind", "adioo/list/main"], function(Bind, List) {
             this.form.reset();
         },
         
-        save: function() {
+        save: function(validate) {
             
-            this.link("saveData", {data: new FormData(this.form)});
+            if (validate) {
+                
+                // TODO validate form
+            }
+            
+            this.link("saveItem", {data: new FormData(this.form)});
+        },
+        
+        remove: function() {
+            
+            this.link("removeItem", {data: new FormData(this.form)});
         }
     };
     
@@ -43,27 +91,69 @@ define(["adioo/bind/bind", "adioo/list/main"], function(Bind, List) {
         
         var form = N.clone(Form, this);
         
+        form.fields = [];
         form.form = form.dom.querySelector("form");
-        form.noSelection = form.dom.querySelector(".noVertexSelected");
+        form.empty = form.dom.querySelector(".noVertexSelected");
         
-        if (!form.form) {
+        config.fields = [
+            {
+                type: "input"
+            },
+            {
+                type: "itemselect"
+            },
+            {
+                type: "dataselect"
+            }
+        ];
+        
+        if (!form.form || !config.fields) {
             
             return null;
         }
         
-        form.obs.l(config.fill || "fill", function(data) {
+        // form fields
+        // TODO load element handlers on demand
+        for (var i = 0, l = config.fields.length, elms = []; i < l; ++i) {
             
-            form.fill(data);
-        });
-        
-        form.obs.l(config.reset || "reset", function() {
+            elms.push("adioo/form/elements/" + config.fields[i].type);
+            
+            // init element and save element handler
+            /*if (Elements[config.fields[i].type]) {
                 
-            form.reset();
-        });
+                form.fields.push(
+                
+                    Elements[config.fields[i].type](config.fields[i])
+                );
+            }*/
+        }
         
-        form.obs.l(config.save || "save", function() {
+        //load demanded element handlers
+        require(elms, function() {
+        
+            console.log(arguments);
+        
+            // events
+            form.obs.l(config.fill || "fill", function(data) {
+                
+                form.fill(data);
+            });
             
-            form.save();
+            form.obs.l(config.set || "set", function(itemName, value) {
+                
+                form.set(itemName, value);
+            });
+            
+            form.obs.l(config.reset || "reset", function() {
+                    
+                form.reset();
+            });
+            
+            form.obs.l(config.save || "save", function() {
+                
+                form.save();
+            });
+        
         });
         
         return form;
