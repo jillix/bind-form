@@ -3,10 +3,20 @@
 define(function() {
     
     //..
+    function handler(field, value) {
+        
+        if (typeof value === "object") {
+            
+            value = JSON.stringify(value);
+        }
+        
+        field.ref.value = value;
+    }
     
-    function init() {
+    function init(form) {
         
         //..
+        return handler;
     }
     
     return init;

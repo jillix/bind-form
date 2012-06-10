@@ -37,28 +37,20 @@ define(function() {
             
             this.reset();
             
-            for (var i = 0, l = this.form.elements.length, elm; i < l; ++i) {
+            for (var i = 0, l = this.fields.length; i < l; ++i) {
                 
-                elm = this.form.elements[i];
-                
-                if (data[elm.name]) {
+                if (data[this.fields[i].name]) {
                     
-                    if (typeof data[this.form.elements[i].name] === "object") {
-                        
-                        data[this.form.elements[i].name] = JSON.stringify(data[this.form.elements[i].name]);
-                    }
-                    
-                    //fill data
-                    this.form.elements[i].value = data[this.form.elements[i].name];
+                    //exec handler
+                    this.handlers[this.fields[i].type](this.fields[i], data[this.fields[i].name]);
                 }
             }
             
             if (this.empty) {
                 
                 this.empty.style.display = "none";
+                this.form.style.display = "block";
             }
-            
-            this.form.style.display = "block";
         },
         
         set: function(itemName, value) {
@@ -89,23 +81,41 @@ define(function() {
     
     function init(config) {
         
-        var form = N.clone(Form, this);
-        
-        form.fields = [];
-        form.form = form.dom.querySelector("form");
-        form.empty = form.dom.querySelector(".noVertexSelected");
-        
         config.fields = [
+            {
+                type: "input",
+                name: "name"
+            },
+            {
+                type: "itemselect",
+                name: "application"
+            },
+            {
+                type: "dataselect"
+            },
             {
                 type: "input"
             },
             {
-                type: "itemselect"
+                type: "input"
+            },
+            {
+                type: "input"
+            },
+            {
+                type: "input"
             },
             {
                 type: "dataselect"
             }
         ];
+        
+        var form = N.clone(Form, this);
+        
+        form.fields = [];
+        form.handlers = {};
+        form.form = form.dom.querySelector("form");
+        form.empty = form.dom.querySelector(".noVertexSelected");
         
         if (!form.form || !config.fields) {
             
@@ -113,26 +123,40 @@ define(function() {
         }
         
         // form fields
-        // TODO load element handlers on demand
-        for (var i = 0, l = config.fields.length, elms = []; i < l; ++i) {
+        for (var i = 0, l = config.fields.length, elms = [], n = 0, field; i < l; ++i) {
             
-            elms.push("adioo/form/elements/" + config.fields[i].type);
+            // save dom reference
+            if (!(config.fields[i].ref = form.form.querySelector("*[name='" + config.fields[i].name + "']"))) {
+                
+                // continue if field is not found in the dom
+                continue;
+            }
             
-            // init element and save element handler
-            /*if (Elements[config.fields[i].type]) {
+            form.fields.push(config.fields[i]);
+            
+            //prepare module loading
+            if (typeof form.handlers[config.fields[i].type] === "undefined") {
                 
-                form.fields.push(
+                form.handlers[config.fields[i].type] = n;
                 
-                    Elements[config.fields[i].type](config.fields[i])
-                );
-            }*/
+                elms.push("adioo/form/elements/" + config.fields[i].type);
+                
+                ++n;
+            }
         }
         
         //load demanded element handlers
         require(elms, function() {
-        
-            console.log(arguments);
-        
+            
+            // init module and save form field handler
+            for (var type in form.handlers) {
+                
+                if (arguments[form.handlers[type]]) {
+                    
+                    form.handlers[type] = arguments[form.handlers[type]](form);
+                }
+            }
+            
             // events
             form.obs.l(config.fill || "fill", function(data) {
                 

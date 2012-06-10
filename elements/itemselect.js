@@ -3,10 +3,15 @@
 define(function() {
     
     //..
+    function handler(field, value) {
+        
+        field.ref.value = value;
+    }
     
-    function init() {
+    function init(form) {
         
         //..
+        return handler;
     }
     
     return init;
