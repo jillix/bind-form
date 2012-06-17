@@ -56,9 +56,12 @@ define(function() {
         set: function(itemName, value) {
             
             // set a value in a field
+            console.log(arguments);
         },
         
         reset: function() {
+            
+            // TODO reset custom form fields
             
             this.form.reset();
         },
@@ -110,7 +113,7 @@ define(function() {
             }
         ];
         
-        var form = N.clone(Form, this);
+        var form = N.ext(Form, this);
         
         form.fields = [];
         form.handlers = {};
@@ -157,6 +160,15 @@ define(function() {
                 }
             }
             
+            //load modules
+            if (config.modules) {
+                
+                for (var selector in config.modules) {
+                    
+                    N.mod(form.dom.querySelector("#" + selector), config.modules[selector]);
+                }
+            }
+            
             // events
             form.obs.l(config.fill || "fill", function(data) {
                 
@@ -165,6 +177,7 @@ define(function() {
             
             form.obs.l(config.set || "set", function(itemName, value) {
                 
+                console.log(arguments);
                 form.set(itemName, value);
             });
             
