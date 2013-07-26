@@ -1,0 +1,10 @@
+{
+    "source": "github",
+    "owner": "jillix",
+    "name": "bind-form",
+    "dependencies": [
+        "/form.js",
+        "github/jillix/events/v0.1.1/events.js"
+    ]
+}
+
