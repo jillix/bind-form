@@ -1,4 +1,3 @@
-form
+bind-form
 ====
 
-Form module for bind
