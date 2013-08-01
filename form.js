@@ -1,5 +1,6 @@
 M.wrap('github/jillix/bind-form/dev/form.js', function (require, module, exports) {
 var controls = require('./controls');
+var testCrud = require('./test-crud');
 
 var devConfig = {
     crud: 'crud', // crud miid

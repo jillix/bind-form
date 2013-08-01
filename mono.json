@@ -5,6 +5,7 @@
     "dependencies": [
         "/form.js",
         "/controls.js",
+        "/test-crud.js",
         "github/jillix/events/v0.1.1/events.js"
     ]
 }
