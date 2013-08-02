@@ -15,7 +15,7 @@ var data = {
         }
     },
     update: {
-        t: '51fa9386532c16152b000001',
+        t: templateName,
         q: {},
         d: {
             $set: {
@@ -40,8 +40,8 @@ function crud (method, data) {
 function init () {
     var self = this;
     
-    //crud.call(self, 'insert', data.template);
-    crud.call(self, 'update', data.update);
+    crud.call(self, 'insert', data.template);
+    //crud.call(self, 'update', data.update);
     //crud.call(self, 'remove', data.remove);
 }
 
