@@ -1,5 +1,7 @@
 M.wrap('github/jillix/bind-form/dev/form.js', function (require, module, exports) {
 var controls = require('./controls');
+
+// TODO remove when crud is tested
 var testCrud = require('./test-crud');
 
 var devConfig = {
@@ -51,7 +53,19 @@ function init (config) {
     
     self.config = config;
     
-    controls.call(self);
+    if (!config.crud) {
+        return console.error('No crud miid defined.');
+    }
+
+    // wait for the crud module
+    self.onready(config.crud, function () {
+        
+        // TODO remove when crud is tested
+        testCrud.call(self);
+        
+        // init controls
+        controls.call(self);
+    });
 }
 
 module.exports = init;
