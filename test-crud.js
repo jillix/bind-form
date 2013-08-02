@@ -1,5 +1,5 @@
 M.wrap('github/jillix/bind-form/dev/test-crud.js', function (require, module, exports) {
-
+    
 var templateName = 'crudTest';
 var data = {
     template: {
@@ -27,6 +27,7 @@ var data = {
     },
     remove: {}
 };
+
 function crud (method, data) {
     this.emit(method, data, function (err, data) {
         console.log(method + ' result');
