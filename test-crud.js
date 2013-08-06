@@ -1,13 +1,14 @@
 M.wrap('github/jillix/bind-form/dev/test-crud.js', function (require, module, exports) {
     
-var templateName = 'crudTest';
+var templateName = '52010deb420b75ca2f000001';
 var data = {
     template: {
-        t: '_template',
+        t: '000000000000000000000000',
         d: {
             db: 'dms',
             collection: templateName,
             name: 'Crud Test',
+            roles: {3: 1},
             schema: {
                 field1: {type: 'string'},
                 field2: {type: 'string', required: true}
@@ -25,7 +26,10 @@ var data = {
         },
         o: {upsert: true}
     },
-    remove: {}
+    remove: {
+        t: templateName,
+        q: {}
+    }
 };
 
 function crud (method, data) {
@@ -41,7 +45,7 @@ function init () {
     var self = this;
     
     //crud.call(self, 'insert', data.template);
-    //crud.call(self, 'update', data.update);
+    crud.call(self, 'update', data.update);
     //crud.call(self, 'remove', data.remove);
 }
 
