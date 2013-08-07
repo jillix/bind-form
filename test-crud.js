@@ -1,7 +1,7 @@
 M.wrap('github/jillix/bind-form/dev/test-crud.js', function (require, module, exports) {
     
 var templateName = '52010deb420b75ca2f000001';
-var data = {
+var crud = {
     template: {
         t: '000000000000000000000000',
         d: {
@@ -17,22 +17,30 @@ var data = {
     },
     update: {
         t: templateName,
-        q: {},
         d: {
             $set: {
-                field1: 'trucken1',
-                field2: 'trucken2'
+                _tp: templateName,
+                field1: 'heinz',
+                field2: 'trucken'
             }
         },
         o: {upsert: true}
     },
     remove: {
         t: templateName,
-        q: {}
+        q: {
+        }
     }
 };
 
-function crud (method, data) {
+var data = {
+    _id: '52023242903538a8394d1278',
+    _tp: templateName,
+    field1: 'trucken doch',
+    field2: 'trucken feschter'
+}
+
+function request (method, data) {
     this.emit(method, data, function (err, data) {
         console.log(method + ' result');
         console.log('--------------------------------------');
@@ -44,9 +52,13 @@ function crud (method, data) {
 function init () {
     var self = this;
     
-    //crud.call(self, 'insert', data.template);
-    crud.call(self, 'update', data.update);
-    //crud.call(self, 'remove', data.remove);
+    self.emit('setData', data);
+    //self.emit('save');
+    //self.emit('remove', data);
+    
+    //request.call(self, 'insert', data.template);
+    //request.call(self, 'update', crud.update);
+    //request.call(self, 'remove', data.remove);
 }
 
 module.exports = init;
