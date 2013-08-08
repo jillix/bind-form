@@ -2,7 +2,7 @@ M.wrap('github/jillix/bind-form/dev/form.js', function (require, module, exports
 var controls = require('./controls');
 
 // TODO remove when crud is tested
-var testCrud = require('./test-crud');
+var data = require('./data');
 
 var devConfig = {
     crud: 'crud', // crud miid
@@ -123,7 +123,7 @@ function init (config) {
         self.on('remove', remove);
         
         // TODO remove when crud is tested
-        testCrud.call(self);
+        data.call(self);
         
     });
 }
