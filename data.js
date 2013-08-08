@@ -1,4 +1,4 @@
-M.wrap('github/jillix/bind-form/dev/test-crud.js', function (require, module, exports) {
+M.wrap('github/jillix/bind-form/dev/data.js', function (require, module, exports) {
     
 var templateName = '52010deb420b75ca2f000001';
 var crud = {
