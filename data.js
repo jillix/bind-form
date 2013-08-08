@@ -1,64 +1,82 @@
 M.wrap('github/jillix/bind-form/dev/data.js', function (require, module, exports) {
-    
-var templateName = '52010deb420b75ca2f000001';
-var crud = {
-    template: {
-        t: '000000000000000000000000',
-        d: {
-            db: 'dms',
-            collection: templateName,
-            name: 'Crud Test',
-            roles: {3: 1},
-            schema: {
-                field1: {type: 'string'},
-                field2: {type: 'string', required: true}
-            }
-        }
-    },
-    update: {
-        t: templateName,
-        d: {
-            $set: {
-                _tp: templateName,
-                field1: 'heinz',
-                field2: 'trucken'
-            }
-        },
-        o: {upsert: true}
-    },
-    remove: {
-        t: templateName,
-        q: {
-        }
-    }
-};
 
-var data = {
-    _id: '52023242903538a8394d1278',
-    _tp: templateName,
-    field1: 'trucken doch',
-    field2: 'trucken feschter'
+function setData (data) {
+    var self = this;
+    
+    // check if data has template
+    if (typeof data !== 'object' && data._tp) {
+        return;
+    }
+    
+    self.data = data;
+    self.emit('dataSet', data);
 }
 
-function request (method, data) {
-    this.emit(method, data, function (err, data) {
-        console.log(method + ' result');
-        console.log('--------------------------------------');
-        console.log(err || data);
-        console.log('\n');
+function save () {
+    var self = this;
+    
+    // if no data is set, no data can be saved
+    if (!self.data) {
+        return;
+    }
+    
+    // create crud query
+    var crud = {
+        t: self.data._tp,
+        d: self.data,
+        o: {upsert: true}
+    };
+    
+    // upsert if item already exists
+    if (self.data._id) {
+        crud.q = {_id: self.data._id};
+    }
+    
+    // do request with the crud module
+    self.emit(crud.q ? 'update' : 'insert', crud, function (err, data) {
+        
+        // update current data
+        if (data._id) {
+            self.data = data;
+        }
+        
+        self.emit('saved', err, data);
+    });
+}
+
+function remove () {
+    var self = this;
+    
+    // if not data is set, no data can be removed
+    if (!self.data || !self.data._id) {
+        return;
+    }
+    
+    // create crud object
+    var crud = {
+        t: self.data._tp,
+        q: {_id: self.data._id}
+    }
+    
+    // do request with the crud module
+    self.emit('remove', crud, function (err, result) {
+        
+        // reset form data
+        if (!err && result) {
+            self.data = null;
+        }
+        
+        // emit remove operation complete
+        self.emit('removed', err, result);
     });
 }
 
 function init () {
     var self = this;
     
-    self.emit('setData', data);
-    //self.emit('save');
-    //self.emit('remove', data);
-    
-    //request.call(self, 'insert', data.template);
-    //request.call(self, 'update', crud.update);
-    //request.call(self, 'remove', data.remove);
+    self.on('setData', setData);
+    self.on('save', save);
+    self.on('rm', remove);
 }
 
 module.exports = init;
