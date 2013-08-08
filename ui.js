@@ -1,4 +1,6 @@
 M.wrap('github/jillix/bind-form/dev/ui.js', function (require, module, exports) {
+var progress = require('./ui/progress');    
+
 function save () {
     var self = this;
 }
@@ -20,6 +22,11 @@ function init () {
     
     // TODO get form fields form a html
     // TODO attach events
+    
+    // init progress handling
+    if (self.config.ui.progress) {
+        progress.call(self);
+    }
     
     // listen to controls
     self.on('uiSave', save);

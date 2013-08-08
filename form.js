@@ -6,7 +6,9 @@ var ui = require('./ui');
 // TODO only for dev
 var devConfig = {
     crud: 'crud', // crud miid
-    ui: {}
+    ui: {
+        progress: {}
+    }
 };
 
 function init (config) {

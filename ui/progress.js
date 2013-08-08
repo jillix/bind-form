@@ -1,7 +1,8 @@
 M.wrap('github/jillix/bind-form/dev/ui/progress.js', function (require, module, exports) {
-function setup () {}
+function init () {
+    var self = this;
+}
 
-exports.setup = setup;
-
+module.exports = init;
 
 return module; });
