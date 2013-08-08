@@ -6,6 +6,7 @@ var ui = require('./ui');
 // TODO only for dev
 var devConfig = {
     crud: 'crud', // crud miid
+    setTemplate: [''] // listen to setTemplate event from this miids
     ui: {
         progress: {}
     }

@@ -14,10 +14,6 @@ function cancel () {
     var self = this;
 }
 
-function fillForm () {
-    var self = this;
-}
-
 function init () {
     var self = this;
     
