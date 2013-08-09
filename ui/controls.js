@@ -1,3 +1,4 @@
+M.wrap('github/jillix/bind-form/dev/ui/controls.js', function (require, module, exports) {
 function save () {
     var self = this;
 }
@@ -19,3 +20,5 @@ function init () {
 }
 
 module.exports = init;
+
+return module; });
