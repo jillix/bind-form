@@ -7,6 +7,7 @@
         "/data.js",
         "/ui.js",
         "/ui/fields.js",
+        "/ui/controls.js",
         "/ui/progress.js",
         "github/jillix/events/v0.1.1/events.js"
     ]
