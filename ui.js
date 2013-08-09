@@ -1,20 +1,9 @@
 M.wrap('github/jillix/bind-form/dev/ui.js', function (require, module, exports) {
 var fields = require('./ui/fields');
+var controls = require('./ui/controls');
 var progress = require('./ui/progress');
 
 var formCache = {};
-
-function save () {
-    var self = this;
-}
-
-function remove () {
-    var self = this;
-}
-
-function cancel () {
-    var self = this;
-}
 
 function getTemplateHtml () {
     var self = this;
@@ -50,20 +39,19 @@ function getTemplateHtml () {
 function init () {
     var self = this;
     
+    // attach cache to module
     self.formCache = formCache;
-    // TODO get form fields form a html
-    // TODO attach events
-    
-    // listen to controls
-    self.on('uiSave', save);
-    self.on('uiRm', remove);
-    self.on('uiCancel', cancel);
     
     // handle template
     self.on('templateSet', getTemplateHtml);
     
     // init fields rendering
     fields.call(self);
+    
+    // init controls
+    if (self.config.ui.controls) {
+        controls.call(self);
+    }
     
     // init progress handling
     if (self.config.ui.progress) {

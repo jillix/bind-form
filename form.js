@@ -8,6 +8,11 @@ var devConfig = {
     crud: 'crud', // crud miid
     setTemplate: [''], // listen to setTemplate event from this miids
     ui: {
+        controls: {
+            save: '',
+            remove: '',
+            cancel: ''
+        },
         progress: {}
     }
 };
