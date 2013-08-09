@@ -14,6 +14,8 @@ function fillForm () {
 function init () {
     var self = this;
     
+    self.on('formHtmlFetched');
+    
     self.on('setFields', setFields);
 
     // listen to core events

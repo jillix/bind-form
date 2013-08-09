@@ -74,9 +74,12 @@ function remove () {
 function init () {
     var self = this;
     
-    self.on('setData', setData);
-    self.on('save', save);
-    self.on('rm', remove);
+    // init data events when a template is set
+    self.once('templateSet', function () {
+        self.on('setData', setData);
+        self.on('save', save);
+        self.on('rm', remove);
+    });
 }
 
 module.exports = init;
