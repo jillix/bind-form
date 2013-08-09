@@ -23,7 +23,11 @@ var devTemplate = {
     schema: {
         name: {
             type: 'string', required: true,
-            label: 'Produkt', order: 5
+            label: 'Produkt', order: 5,
+            selectors: {
+                label: '',
+                value: ''
+            } 
         },
         nr: {
             type: 'string', required: true,

@@ -5,6 +5,19 @@ var progress = require('./ui/progress');
 
 var formCache = {};
 
+function getDomRefs () {
+    var self = this;
+    
+    if (!self.template.schema) {
+        return;
+    }
+    
+    for (var field in self.template.schema) {
+        // TODO get dom refs and config (value, attr, html)
+        console.log(self.template.schema[field]);
+    }
+}
+
 function getTemplateHtml () {
     var self = this;
     
@@ -26,7 +39,8 @@ function getTemplateHtml () {
             
             // cache form
             self.formCache[self.template.id] = {
-                dom: div
+                dom: div,
+                refs: getDomRefs.call(self)
             };
             
             self.emit('formHtmlFetched');

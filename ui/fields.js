@@ -11,15 +11,18 @@ function fillForm () {
     self.emit('formFilled');
 }
 
+function reset () {
+    var self = this;
+    
+    self.emit('formReseted');
+}
+
 function init () {
     var self = this;
     
-    self.on('formHtmlFetched');
-    
     self.on('setFields', setFields);
-
-    // listen to core events
     self.on('dataSet', fillForm);
+    self.on('reset', reset);
 }
 
 module.exports = init;
