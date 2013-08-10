@@ -8,6 +8,7 @@ var devConfig = {
     crud: 'crud', // crud miid
     setTemplate: [''], // listen to setTemplate event from this miids
     ui: {
+        target: '.form-container',
         controls: {
             save: '',
             remove: '',
@@ -55,6 +56,13 @@ var devTemplate = {
         }
     }
 };
+var devData = {
+    _tp: 'templateId',
+    nr: 'trucken-nummer',
+    name: 'Trucken Name',
+    price: 3000,
+    discount: 1000
+};
 
 function setTemplate (template) {
     var self = this;
@@ -100,7 +108,10 @@ function init (config) {
         // TODO only for dev
         setTimeout(function () {
             self.emit('setTemplate', devTemplate);
-        }, 100);
+                setTimeout(function () {
+                self.emit('setData', devData);
+            }, 100);
+        }, 10);
     });
 }
 

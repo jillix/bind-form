@@ -34,6 +34,9 @@ function getDomRefs (form) {
         
         // get the label field
         if (selectors.label && (label = get(selectors.label, form))) {
+            
+            // TODO handle i18n
+            label.innerHTML = self.template.schema[field].label;
             domRefs[field].label = label;
         }
         
@@ -80,15 +83,29 @@ function getTemplateHtml () {
                 refs: getDomRefs.call(self, form)
             };
             
-            self.emit('formHtmlFetched');
+            // append form to the dom
+            self.target.innerHTML = '';
+            self.target.appendChild(form);
+            
+            self.emit('formRendered');
         });
     } else {
-        self.emit('formHtmlFetched');
+        
+        // append form to the dom
+        self.target.innerHTML = '';
+        self.target.appendChild(self.formCache[self.template.id].dom);
+        
+        self.emit('formRendered');
     }
 }
 
 function init () {
     var self = this;
+    
+    // get form target
+    if (!self.config.ui.target || !(self.target = get(self.config.ui.target, self.dom))) {
+        return;
+    }
     
     // attach cache to module
     self.formCache = formCache;
