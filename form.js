@@ -10,9 +10,9 @@ var devConfig = {
     ui: {
         target: '.form-container',
         controls: {
-            save: '',
-            remove: '',
-            cancel: ''
+            save: 'button[name=save]',
+            remove: 'button[name=remove]',
+            cancel: 'button[name=cancel]'
         },
         progress: {}
     }
