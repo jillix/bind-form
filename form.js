@@ -28,6 +28,7 @@ var devTemplate = {
             selectors: {
                 label: '.labelName',
                 value: 'input[name=name]'
+                // attr: 'attrName'
             }
         },
         nr: {

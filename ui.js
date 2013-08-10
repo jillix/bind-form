@@ -46,10 +46,11 @@ function getDomRefs (form) {
             
             // check if value is an input
             tagName = value.tagName.toLowerCase();
-            if (tagName !== 'input' && tagName !== 'select') {
+            if (tagName !== 'input' && tagName !== 'select' && tagName !== 'textarea') {
                 
-                // save content as inner html (1) or as attribute (2)
-                domRefs[field].html = selectors.attr ? 2 : 1;
+                // set html to true to use innerHTML
+                domRefs[field].html = true;
+                domRefs[field].attr = selectors.attr;
             }
         }
     }
@@ -73,7 +74,6 @@ function getTemplateHtml () {
             }
             
             // create dom structure
-            // TODO set form attributes
             var form = elm('form');
             form.innerHTML = html;
             
