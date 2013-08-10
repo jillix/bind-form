@@ -16,7 +16,7 @@ function init () {
     // TOOD define config for ui controls events
     
     // save
-    if (self.ui.save = get(self.config.ui.controls.save)) {
+    if (self.ui.save = get(self.config.ui.controls.save, self.dom)) {
         self.ui.save.addEventListener('click', function () {
             self.emit('updateData');
             self.emit('save');
@@ -24,14 +24,14 @@ function init () {
     }
     
     // remove
-    if (self.ui.remove = get(self.config.ui.controls.remove)) {
+    if (self.ui.remove = get(self.config.ui.controls.remove, self.dom)) {
         self.ui.remove.addEventListener('click', function () {
             self.emit('remove');
         });
     }
     
     // cancel
-    if (self.ui.cancel = get(self.config.ui.controls.cancel)) {
+    if (self.ui.cancel = get(self.config.ui.controls.cancel, self.dom)) {
         self.ui.cancel.addEventListener('click', function () {
             self.emit('reset');
         });

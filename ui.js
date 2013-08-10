@@ -114,17 +114,22 @@ function init () {
     self.on('templateSet', getTemplateHtml);
     
     // init fields rendering
-    fields.call(self);
-    
-    // init controls
-    if (self.config.ui.controls) {
-        controls.call(self);
-    }
+    self.once('formRendered', function () {
+        
+        fields.call(self);
+        
+        // init controls
+        if (self.config.ui.controls) {
+            controls.call(self);
+        }
+    });
     
     // init progress handling
     if (self.config.ui.progress) {
         progress.call(self);
     }
+    
+    
 }
 
 module.exports = init;

@@ -58,11 +58,12 @@ var devTemplate = {
     }
 };
 var devData = {
-    _tp: 'templateId',
-    nr: 'trucken-nummer',
-    name: 'Trucken Name',
-    price: 3000,
-    discount: 1000
+    "_id" : "52025bb70191894f19e33ad5",
+    "_tp" : "52025bb30191894f19e2e82f",
+    "nr" : "VP1",
+    "name" : "Behälter",
+    "price" : 10.1,
+    "discount" : 10.1
 };
 
 function setTemplate (template) {
@@ -93,26 +94,24 @@ function init (config) {
     // wait for the crud module
     self.onready(config.crud, function () {
         
+        // init ui
+        if (self.config.ui) {
+            ui.call(self);
+        }
+        
         // init data events
         data.call(self);
         
         // set template
         self.on('setTemplate', setTemplate);
         
-        // init ui
-        if (config.ui) {
-            ui.call(self);
-        }
-        
         self.emit('ready');
         
         // TODO only for dev
-        setTimeout(function () {
-            self.emit('setTemplate', devTemplate);
-                setTimeout(function () {
-                self.emit('setData', devData);
-            }, 100);
-        }, 10);
+        self.once('formRendered', function () {
+            self.emit('setData', devData);
+        });
+        self.emit('setTemplate', devTemplate);
     });
 }
 

@@ -22,7 +22,7 @@ function save () {
     
     // create crud query
     var crud = {
-        t: self.data._tp,
+        t: self.template.id,
         d: self.data,
         o: {upsert: true}
     };
@@ -54,7 +54,7 @@ function remove () {
     
     // create crud object
     var crud = {
-        t: self.data._tp,
+        t: self.template.id,
         q: {_id: self.data._id}
     }
     
