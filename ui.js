@@ -1,21 +1,57 @@
 M.wrap('github/jillix/bind-form/dev/ui.js', function (require, module, exports) {
+// TODO use bind for dom interaction/manipulation
+function elm(d,a){try{var b=document.createElement(d);if("object"===typeof a)for(var c in a)b.setAttribute(c,a[c]);return b}catch(e){return null}}
+function get(s,c){
+    try{return (c||document).querySelector(s);}
+    catch (err) {
+        return null;
+    }
+}
+
 var fields = require('./ui/fields');
 var controls = require('./ui/controls');
 var progress = require('./ui/progress');
 
 var formCache = {};
 
-function getDomRefs () {
+function getDomRefs (form) {
     var self = this;
     
+    // return if no schema is defined
     if (!self.template.schema) {
         return;
     }
     
+    var domRefs = {};
+    var label, value, selectors, tagName;
+    
+    // det dom refs
     for (var field in self.template.schema) {
-        // TODO get dom refs and config (value, attr, html)
-        console.log(self.template.schema[field]);
+        
+        selectors = self.template.schema[field].selectors;
+        
+        domRefs[field] = {};
+        
+        // get the label field
+        if (selectors.label && (label = get(selectors.label, form))) {
+            domRefs[field].label = label;
+        }
+        
+        // get the value field
+        if (value = get(selectors.value, form)) {
+            domRefs[field].value = value;
+            
+            // check if value is an input
+            tagName = value.tagName.toLowerCase();
+            if (tagName !== 'input' && tagName !== 'select') {
+                
+                // save content as inner html (1) or as attribute (2)
+                domRefs[field].html = selectors.attr ? 2 : 1;
+            }
+        }
     }
+    
+    return domRefs;
 }
 
 function getTemplateHtml () {
@@ -34,13 +70,14 @@ function getTemplateHtml () {
             }
             
             // create dom structure
-            var div = document.createElement('div');
-            div.innerHTML = html;
+            // TODO set form attributes
+            var form = elm('form');
+            form.innerHTML = html;
             
             // cache form
             self.formCache[self.template.id] = {
-                dom: div,
-                refs: getDomRefs.call(self)
+                dom: form,
+                refs: getDomRefs.call(self, form)
             };
             
             self.emit('formHtmlFetched');

@@ -25,21 +25,33 @@ var devTemplate = {
             type: 'string', required: true,
             label: 'Produkt', order: 5,
             selectors: {
-                label: '',
-                value: ''
-            } 
+                label: '.labelName',
+                value: 'input[name=name]'
+            }
         },
         nr: {
             type: 'string', required: true,
-            label: 'Art.-Nr', order: 10
+            label: 'Art.-Nr', order: 10,
+            selectors: {
+                label: '.labelArticleNr',
+                value: '.articleNr'
+            }
         },
         price: {
             type: 'number', required: true,
-            label: 'Bruttopreis', order: 20
+            label: 'Bruttopreis', order: 20,
+            selectors: {
+                label: '.labelPrice',
+                value: 'input[name=price]'
+            }
         },
         discount: {
             type: 'number',
-            label: 'Aktionspreis', order: 15
+            label: 'Aktionspreis', order: 15,
+            selectors: {
+                label: '.labelDiscount',
+                value: 'input[name=discount]'
+            }
         }
     }
 };
