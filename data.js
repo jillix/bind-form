@@ -63,7 +63,7 @@ function remove () {
         
         // reset form data
         if (!err && result) {
-            self.data = null;
+            self.data = {};
         }
         
         // emit remove operation complete

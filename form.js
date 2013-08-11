@@ -58,7 +58,7 @@ var devTemplate = {
     }
 };
 var devData = {
-    "_id" : "52025bb70191894f19e33ad5",
+    "_id" : "5207b5b9986868041a000001",
     "_tp" : "52025bb30191894f19e2e82f",
     "nr" : "VP1",
     "name" : "Behälter",

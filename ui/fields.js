@@ -30,12 +30,17 @@ function fillForm () {
 
 function updateData () {
     var self = this;
+    
+    if (!self.data) {
+        self.data = {};
+    }
+    
     var fields = self.formCache[self.template.id].refs;
     
     for (var field in fields) {
         
         // update data
-        if (!fields[field].html) {
+        if (!fields[field].html && fields[field].value) {
             self.data[field] = fields[field].value.value;
         }
     }
@@ -46,6 +51,9 @@ function updateData () {
 function reset () {
     var self = this;
     var fields = self.formCache[self.template.id].refs;
+    
+    // reset internal data
+    self.data = {};
     
     // reset fields
     for (var field in fields) {
