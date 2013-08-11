@@ -18,8 +18,8 @@ var devConfig = {
     }
 };
 var devTemplate = {
-    id: '000000000IDIDIDIDIDID',
-    name: 'Dev Tempalte',
+    id: '52025bb30191894f19e2e82f',
+    name: 'Articles',
     html: '/html/crud/frmTmplArticle.html',
     schema: {
         name: {

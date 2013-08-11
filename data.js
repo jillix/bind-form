@@ -56,7 +56,7 @@ function remove () {
     var crud = {
         t: self.template.id,
         q: {_id: self.data._id}
-    }
+    };
     
     // do request with the crud module
     self.emit('remove', crud, function (err, result) {

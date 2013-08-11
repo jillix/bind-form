@@ -26,7 +26,7 @@ function init () {
     // remove
     if (self.ui.remove = get(self.config.ui.controls.remove, self.dom)) {
         self.ui.remove.addEventListener('click', function () {
-            self.emit('remove');
+            self.emit('rm');
         });
     }
     
