@@ -32,7 +32,7 @@ function init (config) {
     
     self.config = config;
     
-    if (!config.crud) {
+    if (!config.waitFor) {
         return console.error('No crud miid defined.');
     }
     
