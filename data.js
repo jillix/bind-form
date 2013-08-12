@@ -4,12 +4,26 @@ function setData (data) {
     var self = this;
     
     // check if data has template
-    if (typeof data !== 'object' && data._tp) {
+    if (typeof data !== 'object' || !data._id) {
         return;
     }
     
-    self.data = data;
-    self.emit('dataSet', data);
+    var crud = {
+        t: self.template.id,
+        q: {_id: data._id},
+        o: {limit: 1}
+    };
+    
+    self.emit('find', crud, function (err, data) {
+        
+        // TODO handle error
+        if (err || !data[0]) {
+            return;
+        }
+        
+        self.data = data[0];
+        self.emit('dataSet', data[0]);
+    });
 }
 
 function save () {
