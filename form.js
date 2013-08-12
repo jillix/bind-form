@@ -1,5 +1,5 @@
 M.wrap('github/jillix/bind-form/dev/form.js', function (require, module, exports) {
-
+var Events = require('github/jillix/events');
 var data = require('./data');
 var ui = require('./ui');
 
@@ -58,7 +58,7 @@ var devTemplate = {
     }
 };
 var devData = {
-    "_id" : "5207b5b9986868041a000001",
+    //"_id" : "5207b5b9986868041a000001",
     "_tp" : "52025bb30191894f19e2e82f",
     "nr" : "VP1",
     "name" : "Behälter",
@@ -104,6 +104,9 @@ function init (config) {
         
         // set template
         self.on('setTemplate', setTemplate);
+        
+        // listen to external events
+        Events.call(self, config);
         
         self.emit('ready');
         
