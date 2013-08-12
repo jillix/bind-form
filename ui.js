@@ -30,6 +30,10 @@ function getDomRefs (form) {
         
         selectors = self.template.schema[field].selectors;
         
+        if (!selectors) {
+            continue;
+        }
+        
         domRefs[field] = {};
         
         // get the label field

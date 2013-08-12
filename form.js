@@ -8,7 +8,18 @@ function setTemplate (template) {
     
     // check tempalte
     if (typeof template !== 'object' || !template.id) {
-        return;
+        // TODO cache templates
+        return self.emit('getTemplates', [template], function (err, templates) {
+            
+            // TODO handle error
+            if (err || !templates[template]) {
+                return;
+            }
+            
+            //set current tempalte
+            self.template = templates[template];
+            self.emit('templateSet');
+        });
     }
     
     //set current tempalte
