@@ -19,9 +19,6 @@ function setTemplate (template) {
 function init (config) {
     var self = this;
     
-    // TODO only for dev
-    config = devConfig;
-    
     self.config = config;
     
     if (!config.crud) {
