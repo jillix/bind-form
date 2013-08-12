@@ -36,25 +36,21 @@ function init (config) {
         return console.error('No crud miid defined.');
     }
     
-    // wait for the crud module
-    self.onready(config.crud, function () {
-        
-        // init ui
-        if (self.config.ui) {
-            ui.call(self);
-        }
-        
-        // init data events
-        data.call(self);
-        
-        // set template
-        self.on('setTemplate', setTemplate);
-        
-        // listen to external events
-        Events.call(self, config);
-        
-        self.emit('ready');
-    });
+    // init ui
+    if (self.config.ui) {
+        ui.call(self);
+    }
+    
+    // init data events
+    data.call(self);
+    
+    // set template
+    self.on('setTemplate', setTemplate);
+    
+    // listen to external events
+    Events.call(self, config);
+    
+    self.emit('ready');
 }
 
 module.exports = init;
