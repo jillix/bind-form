@@ -5,26 +5,26 @@ var ui = require('./ui');
 
 function setTemplate (template) {
     var self = this;
-    
-    // check tempalte
-    if (typeof template !== 'object' || !template.id) {
-        // TODO cache templates
-        return self.emit('getTemplates', [template], function (err, templates) {
-            
-            // TODO handle error
-            if (err || !templates[template]) {
-                return;
-            }
-            
-            //set current tempalte
-            self.template = templates[template];
-            self.emit('templateSet');
-        });
+
+    var template = typeof template === 'string' ? template : (template.id || template._id);
+    // check template
+    if (!template) {
+        // TODO handle error
+        alert('Invalid template');
+        return;
     }
-    
-    //set current tempalte
-    self.template = template;
-    self.emit('templateSet');
+
+    self.emit('getTemplates', [template], function (err, templates) {
+
+        // TODO handle error
+        if (err || !templates[template]) {
+            return;
+        }
+
+        // set current template
+        self.template = templates[template];
+        self.emit('templateSet');
+    });
 }
 
 function init (config) {
