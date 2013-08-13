@@ -1,5 +1,30 @@
 M.wrap('github/jillix/bind-form/dev/data.js', function (require, module, exports) {
 
+function flattenObject (obj) {
+    var toReturn = {};
+
+    for (var key in obj) {
+        if (!obj.hasOwnProperty(key)) {
+             continue;
+        }
+
+        var type = obj[key].constructor.name;
+        if (type === 'Object') {
+            var flatObject = flattenObject(obj[key]);
+            for (var x in flatObject) {
+                if (!flatObject.hasOwnProperty(x)) {
+                     continue;
+                }
+
+                toReturn[key + '.' + x] = flatObject[x];
+            }
+        } else {
+            toReturn[key] = obj[key];
+        }
+    }
+    return toReturn;
+};
+
 function setData (data) {
     var self = this;
     
@@ -20,9 +45,9 @@ function setData (data) {
         if (err || !data[0]) {
             return;
         }
-        
-        self.data = data[0];
-        self.emit('dataSet', data[0]);
+
+        self.data = flattenObject(data[0]);
+        self.emit('dataSet', self.data);
     });
 }
 
