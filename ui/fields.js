@@ -8,6 +8,10 @@ M.wrap('github/jillix/bind-form/dev/ui/fields.js', function (require, module, ex
 
 function fillForm () {
     var self = this;
+
+    // reset only form UI data
+    self.emit('reset', true);
+
     var fields = self.formCache[self.template.id].refs;
     
     for (var field in fields) {
@@ -48,13 +52,15 @@ function updateData () {
     self.emit('dataUpdated');
 }
 
-function reset () {
+function reset (formOnly) {
     var self = this;
     var fields = self.formCache[self.template.id].refs;
     
-    // reset internal data
-    self.data = {};
-    
+    if (!formOnly) {
+        // reset internal data
+        self.data = {};
+    }
+
     // reset fields
     for (var field in fields) {
         if (fields[field].html) {
