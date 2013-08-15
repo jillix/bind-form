@@ -25,11 +25,23 @@ function fillForm () {
         if (fields[field].html) {
             fields[field].value.innerHTML = self.data[field];
         } else {
-            fields[field].value.value = self.data[field];
+            if (['checkbox', 'radio'].indexOf(fields[field].value.getAttribute('type')) > -1) {
+                fields[field].value.checked = toBoolean(self.data[field]);
+            } else {
+                fields[field].value.value = self.data[field];
+            }
         }
     }
     
     self.emit('formFilled');
+}
+
+function toBoolean(value) {
+    if (value === true || value === 'true' || value === 'on' || value === 'yes' || value == 1) {
+        return true;
+    }
+
+    return false;
 }
 
 function updateData () {
@@ -45,7 +57,16 @@ function updateData () {
         
         // update data
         if (!fields[field].html && fields[field].value) {
-            self.data[field] = fields[field].value.value;
+            var value = fields[field].value.value;
+            // the value is for some inputs the "checked" property
+            if (['checkbox', 'radio'].indexOf(fields[field].value.getAttribute('type')) > -1) {
+                value = fields[field].value.checked;
+            }
+            if (self.template.schema[field].type === 'boolean') {
+                self.data[field] = toBoolean(value);
+            } else {
+                self.data[field] = fields[field].value.value;
+            }
         }
     }
     
@@ -65,8 +86,10 @@ function reset (formOnly) {
     for (var field in fields) {
         if (fields[field].html) {
             fields[field].value.innerHTML = '';
+        } else if (['checkbox', 'radio'].indexOf(fields[field].value.getAttribute('type')) > -1) {
+            fields[field].value.checked = toBoolean(self.data[field]);
         } else {
-            fields[field].value.value = null;
+            fields[field].value.value = self.data[field];
         }
     }
     

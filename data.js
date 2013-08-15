@@ -69,6 +69,8 @@ function save () {
     // upsert if item already exists
     if (self.data._id) {
         crud.q = {_id: self.data._id};
+        delete crud.d._id;
+        crud.d = { $set: crud.d };
     }
     
     // do request with the crud module
