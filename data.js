@@ -62,9 +62,12 @@ function save () {
     // create crud query
     var crud = {
         t: self.template.id,
-        d: self.data,
-        o: {upsert: true}
+        d: {},
+        o: { upsert: true }
     };
+    for (var i in self.data) {
+        crud.d[i] = self.data[i];
+    }
     
     // upsert if item already exists
     if (self.data._id) {
