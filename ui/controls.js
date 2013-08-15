@@ -13,17 +13,12 @@ function init () {
     // save dom refs
     self.ui = {};
     
-    // save data
-    self.on('dataUpdated', function () {
-        self.emit('save');
-    });
-    
     // TOOD define config for ui controls events
     
     // save
     if (self.ui.save = get(self.config.ui.controls.save, self.dom)) {
         self.ui.save.addEventListener('click', function () {
-            self.emit('updateData');
+            self.emit('save');
         });
     }
     

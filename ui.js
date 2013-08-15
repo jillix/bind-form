@@ -133,7 +133,13 @@ function init () {
         progress.call(self);
     }
     
-    
+    // handle save
+    self.on('dataUpdated', function () {
+        self.emit('saveCrud');
+    });
+    self.on('save', function () {
+        self.emit('updateData');
+    });
 }
 
 module.exports = init;

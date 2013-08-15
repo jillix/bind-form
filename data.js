@@ -116,7 +116,7 @@ function init () {
     // init data events when a template is set
     self.once('templateSet', function () {
         self.on('setData', setData);
-        self.on('save', save);
+        self.on('saveCrud', save);
         self.on('rm', remove);
     });
 }
