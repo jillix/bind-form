@@ -7,6 +7,12 @@ function get(s,c){
         return null;
     }
 }
+function getAll(s,c){
+    try{return (c||document).querySelectorAll(s);}
+    catch (err) {
+        return null;
+    }
+}
 
 var fields = require('./ui/fields');
 var controls = require('./ui/controls');
@@ -23,7 +29,7 @@ function getDomRefs (form) {
     }
     
     var domRefs = {};
-    var label, value, selectors, tagName;
+    var label, value, selectors;
     
     // det dom refs
     for (var field in self.template.schema) {
@@ -37,25 +43,32 @@ function getDomRefs (form) {
         domRefs[field] = {};
         
         // get the label field
-        if (selectors.label && (label = get(selectors.label, form))) {
+        if (selectors.label && (label = getAll(selectors.label, form))) {
             
-            // TODO handle i18n
-            label.innerHTML = self.template.schema[field].label;
+            for (var i = 0, l = label.length; i < l; ++i) {
+                // TODO handle i18n
+                label[i].innerHTML = self.template.schema[field].label;
+            }
+            
             domRefs[field].label = label;
         }
         
         // get the value field
-        if (value = get(selectors.value, form)) {
-            domRefs[field].value = value;
+        if (value = getAll(selectors.value, form)) {
             
-            // check if value is an input
-            tagName = value.tagName.toLowerCase();
-            if (tagName !== 'input' && tagName !== 'select' && tagName !== 'textarea') {
+            for (var i = 0, l = value.length, tagName; i < l; ++i) {
+                // check if value is an input
+                tagName = value[i].tagName.toLowerCase();
                 
-                // set html to true to use innerHTML
-                domRefs[field].html = true;
-                domRefs[field].attr = selectors.attr;
+                if (tagName !== 'input' && tagName !== 'select' && tagName !== 'textarea') {
+                    
+                    // set html to true to use innerHTML
+                    value[i].html = true;
+                    value[i].attr = selectors.attr;
+                }
             }
+            
+            domRefs[field].value = value;
         }
     }
     

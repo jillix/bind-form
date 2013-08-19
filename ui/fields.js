@@ -21,14 +21,16 @@ function fillForm () {
             continue;
         }
         
-        // fill data
-        if (fields[field].html) {
-            fields[field].value.innerHTML = self.data[field];
-        } else {
-            if (['checkbox', 'radio'].indexOf(fields[field].value.getAttribute('type')) > -1) {
-                fields[field].value.checked = toBoolean(self.data[field]);
+        for (var i = 0, l = fields[field].value.length; i < l; ++i) {
+            // fill data
+            if (fields[field].value[i].html) {
+                fields[field].value[i].innerHTML = self.data[field];
             } else {
-                fields[field].value.value = self.data[field];
+                if (['checkbox', 'radio'].indexOf(fields[field].value[i].getAttribute('type')) > -1) {
+                    fields[field].value[i].checked = toBoolean(self.data[field]);
+                } else {
+                    fields[field].value[i].value = self.data[field];
+                }
             }
         }
     }
@@ -54,18 +56,19 @@ function updateData () {
     var fields = self.formCache[self.template.id].refs;
     
     for (var field in fields) {
-        
-        // update data
-        if (!fields[field].html && fields[field].value) {
-            var value = fields[field].value.value;
-            // the value is for some inputs the "checked" property
-            if (['checkbox', 'radio'].indexOf(fields[field].value.getAttribute('type')) > -1) {
-                value = fields[field].value.checked;
-            }
-            if (self.template.schema[field].type === 'boolean') {
-                self.data[field] = toBoolean(value);
-            } else {
-                self.data[field] = fields[field].value.value;
+        for (var i = 0, l = fields[field].value.length; i < l; ++i) {
+            // update data
+            if (fields[field].value[i] && !fields[field].value[i].html) {
+                var value = fields[field].value[i].value;
+                // the value is for some inputs the "checked" property
+                if (['checkbox', 'radio'].indexOf(fields[field].value[i].getAttribute('type')) > -1) {
+                    value = fields[field].value[i].checked;
+                }
+                if (self.template.schema[field].type === 'boolean') {
+                    self.data[field] = toBoolean(value);
+                } else {
+                    self.data[field] = fields[field].value[i].value;
+                }
             }
         }
     }
@@ -82,14 +85,16 @@ function reset (formOnly) {
         self.data = {};
     }
 
-    // reset fields
+    // reset value fields
     for (var field in fields) {
-        if (fields[field].html) {
-            fields[field].value.innerHTML = '';
-        } else if (['checkbox', 'radio'].indexOf(fields[field].value.getAttribute('type')) > -1) {
-            fields[field].value.checked = toBoolean(self.data[field]);
-        } else {
-            fields[field].value.value = self.data[field];
+        for (var i = 0, l = fields[field].value.length; i < l; ++i) {
+            if (fields[field].value[i].html) {
+                fields[field].value[i].innerHTML = '';
+            } else if (['checkbox', 'radio'].indexOf(fields[field].value[i].getAttribute('type')) > -1) {
+                fields[field].value[i].checked = toBoolean(self.data[field]);
+            } else {
+                fields[field].value[i].value = self.data[field];
+            }
         }
     }
     
