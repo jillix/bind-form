@@ -91,18 +91,18 @@ function getTemplateHtml () {
             }
             
             // create dom structure
-            var form = elm('form');
-            form.innerHTML = html;
+            var div = elm('div');
+            div.innerHTML = html;
             
             // cache form
             self.formCache[self.template.id] = {
-                dom: form,
-                refs: getDomRefs.call(self, form)
+                dom: div,
+                refs: getDomRefs.call(self, div)
             };
             
             // append form to the dom
             self.target.innerHTML = '';
-            self.target.appendChild(form);
+            self.target.appendChild(div);
             
             self.emit('formRendered');
         });
