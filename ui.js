@@ -69,6 +69,15 @@ function getDomRefs (form) {
             }
             
             domRefs[field].value = value;
+
+            // add event listeners
+            for (var i = 0, l = value.length; i < l; ++i) {
+                value[i].addEventListener("change", function () {
+                    // TODO
+                    self.emit("dataChanged");
+                    // debugger;
+                }, false);
+            }
         }
     }
     
