@@ -53,6 +53,8 @@ function updateData () {
         self.data = {};
     }
     
+    self.send = {};
+    
     var fields = self.formCache[self.template.id].refs;
     
     for (var field in fields) {
@@ -65,9 +67,9 @@ function updateData () {
                     value = fields[field].value[i].checked;
                 }
                 if (self.template.schema[field].type === 'boolean') {
-                    self.data[field] = toBoolean(value);
+                    self.data[field] = self.send[field] = toBoolean(value);
                 } else {
-                    self.data[field] = fields[field].value[i].value;
+                    self.data[field] = self.send[field] = fields[field].value[i].value;
                 }
             }
         }
