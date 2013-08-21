@@ -80,7 +80,10 @@ function save () {
             self.data = data;
         }
         
-        self.emit('saved', err, data);
+        self.emit('setData', {_id: self.data._id});
+        self.once('dataSet', function () {
+            self.emit('saved', err, data);
+        });
     });
 }
 
