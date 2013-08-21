@@ -93,7 +93,7 @@ function reset (formOnly) {
             } else if (['checkbox', 'radio'].indexOf(fields[field].value[i].getAttribute('type')) > -1) {
                 fields[field].value[i].checked = toBoolean(self.data[field]);
             } else {
-                fields[field].value[i].value = self.data[field];
+                fields[field].value[i].value = '';
             }
         }
     }
