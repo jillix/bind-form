@@ -72,11 +72,20 @@ function getDomRefs (form) {
 
             // add event listeners
             for (var i = 0, l = value.length; i < l; ++i) {
-                value[i].addEventListener("change", function () {
-                    // TODO
-                    self.emit("dataChanged");
-                    // debugger;
-                }, false);
+                (function (key, j) {
+                    value[j].addEventListener("change", function () {
+                        var type = this.getAttribute("type");
+                        var fieldValue = this.value;
+
+                        switch (type) {
+                            case "checkbox":
+                                fieldValue = this.checked;
+                                break;
+                        }
+
+                        self.emit("dataChanged", self.template.id, key, fieldValue, this);
+                    }, false);
+                })(field, i);
             }
         }
     }
