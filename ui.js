@@ -47,7 +47,12 @@ function getDomRefs (form) {
             
             for (var i = 0, l = label.length; i < l; ++i) {
                 // TODO handle i18n
-                label[i].innerHTML = self.template.schema[field].label;
+                var labelValue = self.template.schema[field].label;
+                if(typeof labelValue === 'object') {
+                    label[i].innerHTML = labelValue[M.getLocale()];
+                } else {
+                    label[i].innerHTML = labelValue;
+                }
             }
             
             domRefs[field].label = label;
