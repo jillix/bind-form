@@ -38,9 +38,9 @@ function setData (data) {
         q: {_id: data._id},
         o: {limit: 1}
     };
-    
+
     self.emit('find', crud, function (err, data) {
-        
+
         // TODO handle error
         if (err || !data[0]) {
             return;
@@ -82,7 +82,15 @@ function save () {
         
         self.emit('setData', {_id: self.data._id});
         self.once('dataSet', function () {
-            self.emit('saved', err, self.data);
+
+            if (err || !self.config.options.callGetItem) {
+                self.emit('saved', err, self.data);
+                return;
+            }
+
+            self.emit('getItem', self.data, function (err, dataItem) {
+                self.emit('saved', err, dataItem);
+            });
         });
     });
 }
