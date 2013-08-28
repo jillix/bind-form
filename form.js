@@ -31,6 +31,8 @@ function init (config) {
     var self = this;
     
     self.config = config;
+    config.options = config.options || {};
+    config.options.dataChanged = config.options.dataChanged || "change";
     
     if (!config.waitFor) {
         return console.error('No crud miid defined.');

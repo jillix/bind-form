@@ -78,18 +78,39 @@ function getDomRefs (form) {
             // add event listeners
             for (var i = 0, l = value.length; i < l; ++i) {
                 (function (key, j) {
-                    value[j].addEventListener("change", function () {
-                        var type = this.getAttribute("type");
-                        var fieldValue = this.value;
 
-                        switch (type) {
-                            case "checkbox":
-                                fieldValue = this.checked;
-                                break;
-                        }
+                    // data change event
+                    var dcEvents = self.config.options.dataChanged;
 
-                        self.emit("dataChanged", self.template.id, key, fieldValue, this);
-                    }, false);
+                    // only "change" and "input" are valid options
+                    if (["change", "input"].indexOf(dcEvents) === -1) {
+                        return console.error("Invalid dataChange option value.");
+                    }
+
+                    // convert it to array
+                    dcEvents = [dcEvents];
+
+                    // listen to change always
+                    if (dcEvents[0] === "input") {
+                        dcEvents.push("change");
+                    }
+
+                    // listen each event in dcEvents array
+                    var ev, i = -1;
+                    while (ev = dcEvents[++i]) {
+                        value[j].addEventListener(ev, function () {
+                            var type = this.getAttribute("type");
+                            var fieldValue = this.value;
+
+                            switch (type) {
+	                            case "checkbox":
+	                                fieldValue = this.checked;
+	                                break;
+	                        }
+
+	                        self.emit("dataChanged", self.template.id, key, fieldValue, this);
+	                    }, false);
+                    }
                 })(field, i);
             }
         }
