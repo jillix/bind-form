@@ -3,14 +3,13 @@ bind-form
 
 Insert, update and remove for crud.
 
-####Example config
+####Configuration
 ```js
 // miid of crud module
 "crud": "crud",
 
 // ui configuration
 "ui": {
-    
     // the target of the form html
     "target": ".form-container",
     
@@ -24,14 +23,6 @@ Insert, update and remove for crud.
     // TODO progress config
     "progress": {}
 },
-
-// listen to external events
-"listen": {
-    /*
-        see here how to config:
-        https://github.com/jillix/events
-    */
-}
 ```
 
 ####Event interface
