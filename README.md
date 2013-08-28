@@ -4,7 +4,7 @@ bind-form
 Insert, update and remove for crud.
 
 ####Example config
-```
+```js
 // miid of crud module
 "crud": "crud",
 
@@ -37,31 +37,31 @@ Insert, update and remove for crud.
 ####Event interface
 
 #####setTemplate
-```
+```js
 self.emit('setTemplate', {_id: 'templateId'});
 ```
 
 #####setData
-```
+```js
 self.emit('setData', {_id: 'itemId'});
 ```
 
 #####formRendered
-```
+```js
 self.on('formRendered', function () {});
 ```
 
 #####dataSet
-```
+```js
 self.on('dataSet', function () {});
 ```
 
 #####saved
-```
+```js
 self.on('saved', function () {});
 ```
 
 #####removed
-```
+```js
 self.on('removed', function () {});
 ```
