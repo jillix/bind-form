@@ -51,6 +51,17 @@ function setData (data) {
     });
 }
 
+function setField (field, value) {
+    var self = this;
+    
+    // check if field in tempalte exitst
+    if (self.template.schema[field]) {
+        self.data[field] = value;
+    }
+    
+    self.emit('fieldSet');
+}
+
 function save () {
     var self = this;
     
@@ -128,6 +139,7 @@ function init () {
     // init data events when a template is set
     self.once('templateSet', function () {
         self.on('setData', setData);
+        self.on('setField', setField);
         self.on('saveCrud', save);
         self.on('rm', remove);
     });

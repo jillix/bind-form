@@ -1,7 +1,13 @@
 M.wrap('github/jillix/bind-form/dev/ui/fields.js', function (require, module, exports) {
 // TODO generate form fields from a configuration
-/*function setFields () {
+/*function setFields (fields) {
     var self = this;
+    
+    for (var i = 0, l = fields.length; i < l; ++i) {
+        if (self.template.schema[fields[i].field]) {
+            
+        }
+    }
     
     self.emit('fieldsSet');
 }*/
@@ -109,6 +115,7 @@ function init () {
     //self.on('setFields', setFields);
     self.on('updateData', updateData);
     self.on('dataSet', fillForm);
+    self.on('fieldSet', fillForm);
     self.on('reset', reset);
 }
 
