@@ -57,6 +57,7 @@ function setField (field, value) {
     // check if field in tempalte exitst
     if (self.template.schema[field]) {
         self.data[field] = value;
+        self.emit('dataChanged');
     }
     
     self.emit('fieldSet');
