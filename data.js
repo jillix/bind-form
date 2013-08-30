@@ -63,6 +63,14 @@ function setField (field, value) {
     self.emit('fieldSet');
 }
 
+function getUpdater (field, value) {
+    var self = this;
+
+    if (self.template.schema[field]) {
+        self.data[field] = value;
+    }
+}
+
 function save () {
     var self = this;
     
@@ -71,11 +79,15 @@ function save () {
         return;
     }
     
+    self.send['cc.last_update.by'] = self.data['cc.last_update.by'];
+    self.emit('fieldSet');
+
     // create crud request
     var crud = {
         t: self.template.id,
         d: self.send
     };
+
     
     // upsert if item already exists
     if (self.data._id) {
@@ -84,6 +96,7 @@ function save () {
         crud.d = { $set: crud.d };
     }
     
+
     // do request with the crud module
     self.emit(crud.q ? 'update' : 'insert', crud, function (err, data) {
         
@@ -143,6 +156,7 @@ function init () {
         self.on('setField', setField);
         self.on('saveCrud', save);
         self.on('rm', remove);
+        self.on('getUpdater', getUpdater);
     });
 }
 
