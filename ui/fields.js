@@ -14,6 +14,11 @@ M.wrap('github/jillix/bind-form/dev/ui/fields.js', function (require, module, ex
 
 function fillForm () {
     var self = this;
+    
+    // check if template form exists
+    if (!self.formCache[self.template.id]) {
+        return;
+    }
 
     // reset only form UI data
     self.emit('reset', true);
@@ -86,6 +91,12 @@ function updateData () {
 
 function reset (formOnly) {
     var self = this;
+    
+    // check if template form exists
+    if (!self.formCache[self.template.id]) {
+        return;
+    }
+    
     var fields = self.formCache[self.template.id].refs;
     
     if (!formOnly) {
