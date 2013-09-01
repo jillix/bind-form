@@ -25,7 +25,7 @@ function flattenObject (obj) {
     return toReturn;
 };
 
-function setData (data) {
+function setData (data, query) {
     var self = this;
     
     // check if data has template
@@ -35,7 +35,7 @@ function setData (data) {
     
     var crud = {
         t: self.template.id,
-        q: {_id: data._id},
+        q: query || {_id: data._id},
         o: {limit: 1}
     };
 
