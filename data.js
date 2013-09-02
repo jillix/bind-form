@@ -38,7 +38,9 @@ function setData (data, query) {
     var crud = {
         t: self.template.id,
         q: query || {_id: data._id},
-        o: {limit: 1}
+        o: {limit: 1},
+        // TODO remove this when updates on linked fields are possible
+        noJoins: true
     };
     
     self.emit('find', crud, function (err, resultData) {
@@ -49,7 +51,7 @@ function setData (data, query) {
         if (err) {
             return;
         }
-
+        
         self.data = flattenObject(resultData[0] || data);
         self.emit('dataSet', self.data);
     });
@@ -105,8 +107,8 @@ function save () {
     self.emit(crud.q ? 'update' : 'insert', crud, function (err, data) {
         
         // update current data
-        if (data._id) {
-            self.data = data;
+        if (data[0]._id) {
+            self.data = data[0];
         }
         
         self.emit('setData', {_id: self.data._id});
