@@ -12,6 +12,33 @@ M.wrap('github/jillix/bind-form/dev/ui/fields.js', function (require, module, ex
     self.emit('fieldsSet');
 }*/
 
+function findValue (parent, dotNot) {
+
+    if (!dotNot) return undefined;
+
+    var splits = dotNot.split(".");
+    var value;
+
+    for (var i = 0; i < splits.length; i++) {
+        value = parent[splits[i]];
+        if (value === undefined) return undefined;
+        if (typeof value === "object") parent = value;
+    }
+
+    return value;
+}
+
+function findFunction (parent, dotNot) {
+
+    var func = findValue(parent, dotNot);
+
+    if (typeof func !== "function") {
+        return undefined;
+    }
+
+    return func;
+}
+
 function fillForm () {
     var self = this;
     
@@ -24,7 +51,7 @@ function fillForm () {
     self.emit('reset', true);
 
     var fields = self.formCache[self.template.id].refs;
-    
+
     for (var field in fields) {
         
         // ignore data if no dom ref is available
@@ -33,14 +60,25 @@ function fillForm () {
         }
         
         for (var i = 0, l = fields[field].value.length; i < l; ++i) {
+
+            // change value using filters
+            var value = JSON.parse(JSON.stringify(self.data))[field];
+
+            var filterValue = fields[field].value[i].getAttribute("data-filter");
+            var filterFunction = findFunction(window, filterValue);
+
+            if (typeof filterFunction === "function") {
+                value = filterFunction(self, self.data, field, value, fields[field].value[i]);
+            }
+
             // fill data
             if (fields[field].value[i].html) {
-                fields[field].value[i].innerHTML = self.data[field];
+                fields[field].value[i].innerHTML = value;
             } else {
                 if (['checkbox', 'radio'].indexOf(fields[field].value[i].getAttribute('type')) > -1) {
-                    fields[field].value[i].checked = toBoolean(self.data[field]);
+                   fields[field].value[i].checked = toBoolean(value);
                 } else {
-                    fields[field].value[i].value = self.data[field];
+                    fields[field].value[i].value = value;
                 }
             }
         }
