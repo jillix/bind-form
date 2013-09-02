@@ -29,7 +29,7 @@ function setData (data, query) {
     var self = this;
     
     // check if data has template
-    if (typeof data !== 'object' || !data._id || self.findBusy) {
+    if (typeof data !== 'object' || self.findBusy) {
         return;
     }
     
@@ -41,16 +41,16 @@ function setData (data, query) {
         o: {limit: 1}
     };
     
-    self.emit('find', crud, function (err, data) {
+    self.emit('find', crud, function (err, resultData) {
         
         self.findBusy = false;
         
         // TODO handle error
-        if (err || !data[0]) {
+        if (err) {
             return;
         }
 
-        self.data = flattenObject(data[0]);
+        self.data = flattenObject(resultData[0] || data);
         self.emit('dataSet', self.data);
     });
 }
