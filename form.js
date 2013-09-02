@@ -3,27 +3,30 @@ var Events = require('github/jillix/events');
 var data = require('./data');
 var ui = require('./ui');
 
-function setTemplate (template) {
+function setTemplate (template, callback) {
     var self = this;
+    
+    callback = typeof callback === 'function' ? callback :  function () {};
 
     var template = typeof template === 'string' ? template : (template.id || template._id);
     // check template
     if (!template) {
         // TODO handle error
         alert('Invalid template');
-        return;
+        return callback('Invalid template');
     }
 
     self.emit('getTemplates', [template], function (err, templates) {
 
         // TODO handle error
         if (err || !templates[template]) {
-            return;
+            return callback(err);
         }
 
         // set current template
         self.template = templates[template];
         self.emit('templateSet');
+        callback(null, self.template);
     });
 }
 
