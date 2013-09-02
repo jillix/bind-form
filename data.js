@@ -85,8 +85,11 @@ function save () {
         return;
     }
     
-    self.send['cc.last_update.by'] = self.data['cc.last_update.by'];
-    self.emit('fieldSet');
+    // TODO this is custom code!!
+    if (self.data['cc.last_update.by']) {
+        self.send['cc.last_update.by'] = self.data['cc.last_update.by'];
+        self.emit('fieldSet');
+    }
 
     // create crud request
     var crud = {
@@ -107,8 +110,8 @@ function save () {
     self.emit(crud.q ? 'update' : 'insert', crud, function (err, data) {
         
         // update current data
-        if (data[0]._id) {
-            self.data = data[0];
+        if (data && data._id) {
+            self.data = data;
         }
         
         self.emit('setData', {_id: self.data._id});
