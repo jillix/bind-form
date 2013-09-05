@@ -112,20 +112,22 @@ function save () {
         // update current data
         if (data && data._id) {
             self.data = data;
+            self.emit('saved', err, self.data);
+            return;
         }
         
-        self.emit('setData', {_id: self.data._id});
         self.once('dataSet', function () {
 
             if (err || !self.config.options.callGetItem) {
                 self.emit('saved', err, self.data);
                 return;
             }
-
+            
             self.emit('getItem', self.data, function (err, dataItem) {
                 self.emit('saved', err, dataItem);
             });
         });
+        self.emit('setData', {_id: self.data._id});
     });
 }
 
