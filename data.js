@@ -105,21 +105,31 @@ function save () {
         crud.d = { $set: crud.d };
     }
     
+    var isInsert = !crud.q;
 
     // do request with the crud module
-    self.emit(crud.q ? 'update' : 'insert', crud, function (err, data) {
+    self.emit(isInsert ? 'insert' : 'update', crud, function (err, data) {
+
+        // for insert queries
+
+        if (isInsert) {
         
-        // update current data
-        if (data && data._id) {
-            self.data = data;
-            self.emit('saved', err, self.data);
+            if (err || !data || !data.length) {
+                self.emit('saved', err || 'Missing insert result');
+                return;
+            }
+
+            self.data = data[0];
+            self.emit('saved', null, self.data);
             return;
         }
-        
+
+        // for update queries
+
         self.once('dataSet', function () {
 
-            if (err || !self.config.options.callGetItem) {
-                self.emit('saved', err, self.data);
+            if (!self.config.options.callGetItem) {
+                self.emit('saved', null, self.data);
                 return;
             }
             
@@ -127,6 +137,8 @@ function save () {
                 self.emit('saved', err, dataItem);
             });
         });
+
+        // update queries require a form refresh
         self.emit('setData', {_id: self.data._id});
     });
 }
