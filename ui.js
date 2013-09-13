@@ -134,27 +134,24 @@ function getTemplateHtml () {
                 return;
             }
             
-            // create dom structure
-            var div = elm('div');
-            div.innerHTML = html;
+            // append form to the dom
+            self.target.innerHTML = html;
             
             // cache form
             self.formCache[self.template.id] = {
-                dom: div,
-                refs: getDomRefs.call(self, div)
+                dom: self.target,
+                html: html,
+                refs: getDomRefs.call(self, self.target)
             };
-            
-            // append form to the dom
-            self.target.innerHTML = '';
-            self.target.appendChild(div);
             
             self.emit('formRendered');
         });
     } else {
         
         // append form to the dom
-        self.target.innerHTML = '';
-        self.target.appendChild(self.formCache[self.template.id].dom);
+        self.target.innerHTML = self.formCache[self.template.id].html;
+        self.formCache[self.template.id].dom = self.target;
+        self.formCache[self.template.id].refs = getDomRefs.call(self, self.target);
         
         self.emit('formRendered');
     }
