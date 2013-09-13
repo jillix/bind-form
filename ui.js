@@ -92,7 +92,7 @@ function getDomRefs (form) {
 
                     // listen to change always
                     if (dcEvents[0] === "input") {
-                        dcEvents.push("change");
+                        dcEvents.push("click");
                     }
 
                     // listen each event in dcEvents array
