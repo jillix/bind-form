@@ -8,8 +8,7 @@ function flattenObject (obj) {
              continue;
         }
 
-        var type = obj[key].constructor.name;
-        if (type === 'Object') {
+        if (typeof obj[key] === 'object' && !(obj[key] instanceof Array)) {
             var flatObject = flattenObject(obj[key]);
             for (var x in flatObject) {
                 if (!flatObject.hasOwnProperty(x)) {
