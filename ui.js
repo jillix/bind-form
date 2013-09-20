@@ -123,13 +123,13 @@ function getTemplateHtml () {
     var self = this;
     
     // return if template has no html
-    if (!self.template.html) {
+    if (!(self.template.options || {}).html) {
         return;
     }
     
     // get the html
     if (!self.formCache[self.template.id]) {
-        self.link(self.template.html, function (err, html) {
+        self.link(self.template.options.html, function (err, html) {
             if (err || html === '') {
                 return;
             }
