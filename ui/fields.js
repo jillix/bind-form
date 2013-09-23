@@ -53,6 +53,7 @@ function fillForm () {
     var fields = self.formCache[self.template.id].refs;
 
     for (var field in fields) {
+        if (!fields.hasOwnProperty(field)) return;
         
         // ignore data if no dom ref is available
         if (typeof self.data[field] === 'undefined') {
@@ -107,6 +108,7 @@ function updateData () {
     var fields = self.formCache[self.template.id].refs;
     
     for (var field in fields) {
+        if (!fields.hasOwnProperty(field)) return;
         for (var i = 0, l = fields[field].value.length; i < l; ++i) {
             // update data
             if (fields[field].value[i] && !fields[field].value[i].html) {
@@ -144,6 +146,8 @@ function reset (formOnly) {
 
     // reset value fields
     for (var field in fields) {
+        if (!fields.hasOwnProperty(field)) return;
+
         for (var i = 0, l = fields[field].value.length; i < l; ++i) {
             if (fields[field].value[i].html) {
                 fields[field].value[i].innerHTML = '';
