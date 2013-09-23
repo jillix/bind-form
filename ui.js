@@ -27,7 +27,7 @@ function getDomRefs (form) {
     if (!self.template.schema) {
         return;
     }
-    
+
     var domRefs = {};
     var label, value, selectors;
     
@@ -57,16 +57,12 @@ function getDomRefs (form) {
             
             domRefs[field].label = label;
         }
-        
+
         // get the value field
         if (value = getAll(selectors.value, form)) {
-            
             for (var i = 0, l = value.length, tagName; i < l; ++i) {
                 // check if value is an input
-                tagName = value[i].tagName.toLowerCase();
-                
-                if (tagName !== 'input' && tagName !== 'select' && tagName !== 'textarea') {
-                    
+                if (['INPUT', 'SELECT', 'TEXTAREA'].indexOf(value[i].tagName) === -1) {
                     // set html to true to use innerHTML
                     value[i].html = true;
                     value[i].attr = selectors.attr;
@@ -76,42 +72,41 @@ function getDomRefs (form) {
             domRefs[field].value = value;
 
             // add event listeners
-            for (var i = 0, l = value.length; i < l; ++i) {
-                (function (key, j) {
+            for (var i = 0; i < value.length; ++i) {
+                // do not add event listeners if this is not an input
+                if (['INPUT', 'SELECT', 'TEXTAREA'].indexOf(value[i].tagName) === -1) {
+                    continue;
+                }
 
-                    // data change event
-                    var dcEvents = self.config.options.dataChanged;
+                // data change event
+                var dcEvents = [self.config.options.dataChanged];
 
-                    // only "change" and "input" are valid options
-                    if (["change", "input"].indexOf(dcEvents) === -1) {
-                        return console.error("Invalid dataChange option value.");
-                    }
+                // always listen to change
+                if (dcEvents[0] === 'input') {
+                    dcEvents.push('change');
+                }
 
-                    // convert it to array
-                    dcEvents = [dcEvents];
+                // listen each event in dcEvents array
+                for (var j = 0; j < dcEvents.length; ++j) {
+                    (function (field) {
+                        value[i].addEventListener(dcEvents[j], function () {
 
-                    // listen to change always
-                    if (dcEvents[0] === "input") {
-                        dcEvents.push("click");
-                    }
+                            var fieldValue;
 
-                    // listen each event in dcEvents array
-                    var ev, i = -1;
-                    while (ev = dcEvents[++i]) {
-                        value[j].addEventListener(ev, function () {
-                            var type = this.getAttribute("type");
-                            var fieldValue = this.value;
+                            // checkboxes need a special treatment
+                            // TODO add radio button support
+                            switch (this.getAttribute('type')) {
+                                case 'checkbox':
+                                    fieldValue = this.checked;
+                                    break;
+                                default:
+                                    fieldValue = this.value;
+                            }
 
-                            switch (type) {
-	                            case "checkbox":
-	                                fieldValue = this.checked;
-	                                break;
-	                        }
-
-	                        self.emit("dataChanged", self.template.id, key, fieldValue, this);
-	                    }, false);
-                    }
-                })(field, i);
+                            self.emit("dataChanged", self.template.id, field, fieldValue, this);
+                        }, false);
+                    })(field);
+                }
             }
         }
     }
@@ -123,13 +118,13 @@ function getTemplateHtml () {
     var self = this;
     
     // return if template has no html
-    if (!self.template.html) {
+    if (!(self.template.options || {}).html) {
         return;
     }
     
     // get the html
     if (!self.formCache[self.template.id]) {
-        self.link(self.template.html, function (err, html) {
+        self.link(self.template.options.html, function (err, html) {
             if (err || html === '') {
                 return;
             }
@@ -165,6 +160,13 @@ function init () {
         return;
     }
     
+    // only 'change' and 'input' are valid options
+    var dce = ['change', 'input'];
+    if (dce.indexOf(self.config.options.dataChanged) === -1) {
+        alert('The dataChange option value must be one of: ' + dce.join(', '));
+        return;
+    }
+
     // attach cache to module
     self.formCache = formCache;
     
