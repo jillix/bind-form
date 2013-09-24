@@ -24,6 +24,23 @@ function flattenObject (obj) {
     return toReturn;
 };
 
+function prepareData (data) {
+    var self = this;
+    
+    // wait for html
+    if (self.template.options && self.template.options.html && !self.formCache[self.template.id]) {
+        self.once('formRendered', function () {
+            self.data = flattenObject(data);
+            self.emit('dataSet', self.data);
+        });
+        
+        return;
+    }
+    
+    self.data = flattenObject(data);
+    self.emit('dataSet', self.data);
+}
+
 function setData (data, query) {
     var self = this;
 
@@ -38,8 +55,7 @@ function setData (data, query) {
     
     // don't fetch data from server when query is false
     if (query === false) {
-        self.data = flattenObject(data);
-        self.emit('dataSet', self.data);
+        prepareData.call(self, data);
         return;
     }
     
@@ -61,9 +77,8 @@ function setData (data, query) {
         if (err) {
             return;
         }
-
-        self.data = flattenObject(resultData[0] || data);
-        self.emit('dataSet', self.data);
+        
+        prepareData.call(self, resultData[0] || data);
     });
 }
 
