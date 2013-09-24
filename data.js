@@ -35,7 +35,14 @@ function setData (data, query) {
     if (typeof data !== 'object' || self.findBusy) {
         return;
     }
-
+    
+    // don't fetch data from server when query is false
+    if (query === false) {
+        self.data = flattenObject(data);
+        self.emit('dataSet', self.data);
+        return;
+    }
+    
     self.findBusy = true;
 
     var crud = {
