@@ -152,7 +152,7 @@ function reset (formOnly) {
             if (fields[field].value[i].html) {
                 fields[field].value[i].innerHTML = '';
             } else if (['checkbox', 'radio'].indexOf(fields[field].value[i].getAttribute('type')) > -1) {
-                fields[field].value[i].checked = toBoolean(self.data[field]);
+                fields[field].value[i].checked = false;
             } else {
                 fields[field].value[i].value = '';
             }
