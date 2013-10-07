@@ -16,15 +16,21 @@ function setTemplate (template, callback) {
         return callback('Invalid template');
     }
 
-    self.emit('getTemplates', [template], function (err, templates) {
+    self.emit('find', [template], function (err, templates) {
 
-        // TODO handle error
-        if (err || !templates[template]) {
-            return callback(err);
+        for (var key in templates) {
+            if (!templates.hasOwnProperty(key)) return;
+            if (templates[key]._id === template) {
+                self.template = templates[key];
+            }
         }
 
+        // TODO handle error
+        if (err || !self.template) {
+            return callback(err);
+        }
+      
         // set current template
-        self.template = templates[template];
         self.emit('templateSet');
         callback(null, self.template);
     });

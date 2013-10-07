@@ -43,14 +43,14 @@ function fillForm () {
     var self = this;
     
     // check if template form exists
-    if (!self.formCache[self.template.id]) {
+    if (!self.formCache[self.template._id]) {
         return;
     }
 
     // reset only form UI data
     self.emit('reset', true);
 
-    var fields = self.formCache[self.template.id].refs;
+    var fields = self.formCache[self.template._id].refs;
 
     for (var field in fields) {
         if (!fields.hasOwnProperty(field)) return;
@@ -105,7 +105,7 @@ function updateData () {
     
     self.send = {};
     
-    var fields = self.formCache[self.template.id].refs;
+    var fields = self.formCache[self.template._id].refs;
     
     for (var field in fields) {
         if (!fields.hasOwnProperty(field)) return;
@@ -133,11 +133,11 @@ function reset (formOnly) {
     var self = this;
     
     // check if template form exists
-    if (!self.formCache[self.template.id]) {
+    if (!self.formCache[self.template._id]) {
         return;
     }
     
-    var fields = self.formCache[self.template.id].refs;
+    var fields = self.formCache[self.template._id].refs;
     
     if (!formOnly) {
         // reset internal data

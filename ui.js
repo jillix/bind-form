@@ -103,7 +103,7 @@ function getDomRefs (form) {
                                     fieldValue = this.value;
                             }
 
-                            self.emit("dataChanged", self.template.id, field, fieldValue, this);
+                            self.emit("dataChanged", self.template._id, field, fieldValue, this);
                         }, false);
                     })(field);
                 }
@@ -123,7 +123,7 @@ function getTemplateHtml () {
     }
     
     // get the html
-    if (!self.formCache[self.template.id]) {
+    if (!self.formCache[self.template._id]) {
         self.link(self.template.options.html, function (err, html) {
             if (err || html === '') {
                 return;
@@ -133,7 +133,7 @@ function getTemplateHtml () {
             self.target.innerHTML = html;
             
             // cache form
-            self.formCache[self.template.id] = {
+            self.formCache[self.template._id] = {
                 dom: self.target,
                 html: html,
                 refs: getDomRefs.call(self, self.target)
@@ -144,9 +144,9 @@ function getTemplateHtml () {
     } else {
         
         // append form to the dom
-        self.target.innerHTML = self.formCache[self.template.id].html;
-        self.formCache[self.template.id].dom = self.target;
-        self.formCache[self.template.id].refs = getDomRefs.call(self, self.target);
+        self.target.innerHTML = self.formCache[self.template._id].html;
+        self.formCache[self.template._id].dom = self.target;
+        self.formCache[self.template._id].refs = getDomRefs.call(self, self.target);
         
         self.emit('formRendered');
     }

@@ -28,7 +28,7 @@ function prepareData (data) {
     var self = this;
     
     // wait for html
-    if (self.template.options && self.template.options.html && !self.formCache[self.template.id]) {
+    if (self.template.options && self.template.options.html && !self.formCache[self.template._id]) {
         self.once('formRendered', function () {
             self.data = flattenObject(data);
             self.emit('dataSet', self.data);
@@ -62,7 +62,7 @@ function setData (data, query) {
     self.findBusy = true;
 
     var crud = {
-        t: self.template.id,
+        t: self.template._id,
         q: query || {_id: data._id},
         o: {limit: 1},
         // TODO remove this when updates on linked fields are possible
@@ -127,7 +127,7 @@ function save () {
 
     // create crud request
     var crud = {
-        t: self.template.id,
+        t: self.template._id,
         d: self.send
     };
 
@@ -187,7 +187,7 @@ function remove () {
 
     // create crud object
     var crud = {
-        t: self.template.id,
+        t: self.template._id,
         q: {_id: self.data._id}
     };
 
