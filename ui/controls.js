@@ -34,6 +34,7 @@ function init () {
     if (self.ui.cancel = get(self.config.ui.controls.cancel, self.dom)) {
         self.ui.cancel.addEventListener('click', function () {
             self.emit('reset');
+            self.emit('cancel');
         });
     }
 }
