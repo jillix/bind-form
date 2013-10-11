@@ -108,19 +108,30 @@ function updateData () {
     var fields = self.formCache[self.template._id].refs;
     
     for (var field in fields) {
-        if (!fields.hasOwnProperty(field)) return;
+        
+        if (!fields.hasOwnProperty(field)) {
+            continue;
+        };
+        
         for (var i = 0, l = fields[field].value.length; i < l; ++i) {
             // update data
             if (fields[field].value[i] && !fields[field].value[i].html) {
-                var value = fields[field].value[i].value;
+                
                 // the value is for some inputs the "checked" property
+                var value = fields[field].value[i].value;
                 if (['checkbox', 'radio'].indexOf(fields[field].value[i].getAttribute('type')) > -1) {
                     value = fields[field].value[i].checked;
                 }
+                
                 if (self.template.schema[field].type === 'boolean') {
                     self.data[field] = self.send[field] = toBoolean(value);
                 } else {
-                    self.data[field] = self.send[field] = fields[field].value[i].value;
+                    self.data[field] = value;
+                    
+                    // ingore empty fields
+                    if (value !== '') {
+                        self.send[field] = value;
+                    }
                 }
             }
         }
