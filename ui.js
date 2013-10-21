@@ -31,15 +31,15 @@ function getDomRefs (form) {
     var domRefs = {};
     var label, value, selectors;
     
-    // det dom refs
+    // get dom refs
     for (var field in self.template.schema) {
-        if (!self.template.schema.hasOwnProperty(field)) return;        
+        if (!self.template.schema.hasOwnProperty(field)) continue;
+
         selectors = self.template.schema[field].selectors;
-        
         if (!selectors) {
             continue;
         }
-        
+
         domRefs[field] = {};
         
         // get the label field
@@ -48,7 +48,7 @@ function getDomRefs (form) {
             for (var i = 0, l = label.length; i < l; ++i) {
                 // TODO handle i18n
                 var labelValue = self.template.schema[field].label;
-                if(typeof labelValue === 'object') {
+                if (typeof labelValue === 'object') {
                     label[i].innerHTML = labelValue[M.getLocale()];
                 } else {
                     label[i].innerHTML = labelValue;
@@ -61,14 +61,14 @@ function getDomRefs (form) {
         // get the value field
         if (value = getAll(selectors.value, form)) {
             for (var i = 0, l = value.length, tagName; i < l; ++i) {
-                // check if value is an input
+                // set the html if the value is not an input
                 if (['INPUT', 'SELECT', 'TEXTAREA'].indexOf(value[i].tagName) === -1) {
                     // set html to true to use innerHTML
                     value[i].html = true;
                     value[i].attr = selectors.attr;
                 }
             }
-            
+
             domRefs[field].value = value;
 
             // add event listeners
@@ -77,6 +77,11 @@ function getDomRefs (form) {
                 if (['INPUT', 'SELECT', 'TEXTAREA'].indexOf(value[i].tagName) === -1) {
                     continue;
                 }
+
+                // TODO
+                // this is a flag used to control the state and future operation on this field
+                // this will have $set or $unset values
+                domRefs[field].control = '$set';
 
                 // data change event
                 var dcEvents = [self.config.options.dataChanged];

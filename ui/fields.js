@@ -16,13 +16,13 @@ function findValue (parent, dotNot) {
 
     if (!dotNot) return undefined;
 
-    var splits = dotNot.split(".");
+    var splits = dotNot.split('.');
     var value;
 
     for (var i = 0; i < splits.length; i++) {
         value = parent[splits[i]];
         if (value === undefined) return undefined;
-        if (typeof value === "object") parent = value;
+        if (typeof value === 'object') parent = value;
     }
 
     return value;
@@ -32,7 +32,7 @@ function findFunction (parent, dotNot) {
 
     var func = findValue(parent, dotNot);
 
-    if (typeof func !== "function") {
+    if (typeof func !== 'function') {
         return undefined;
     }
 
@@ -53,7 +53,7 @@ function fillForm () {
     var fields = self.formCache[self.template._id].refs;
 
     for (var field in fields) {
-        if (!fields.hasOwnProperty(field)) return;
+        if (!fields.hasOwnProperty(field)) continue;
         
         // ignore data if no dom ref is available
         if (typeof self.data[field] === 'undefined') {
@@ -65,10 +65,10 @@ function fillForm () {
             // change value using filters
             var value = JSON.parse(JSON.stringify(self.data))[field];
 
-            var filterValue = fields[field].value[i].getAttribute("data-filter");
+            var filterValue = fields[field].value[i].getAttribute('data-filter');
             var filterFunction = findFunction(window, filterValue);
 
-            if (typeof filterFunction === "function") {
+            if (typeof filterFunction === 'function') {
                 value = filterFunction(self, self.data, field, value, fields[field].value[i]);
             }
 
@@ -108,10 +108,7 @@ function updateData () {
     var fields = self.formCache[self.template._id].refs;
     
     for (var field in fields) {
-        
-        if (!fields.hasOwnProperty(field)) {
-            continue;
-        };
+        if (!fields.hasOwnProperty(field)) continue;
         
         for (var i = 0, l = fields[field].value.length; i < l; ++i) {
             // update data
