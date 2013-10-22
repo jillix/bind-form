@@ -111,8 +111,9 @@ function getUpdater (field, value) {
     }
 }
 
-function save () {
+function save (callback) {
     var self = this;
+    callback = callback || function () {};
 
     // if no data is set, no data can be saved
     if (!self.data || !self.template) {
@@ -149,11 +150,13 @@ function save () {
         if (isInsert) {
 
             if (err || !data || !data.length) {
+                callback("No self.data or self.template set.");
                 self.emit('saved', err || 'Missing insert result');
                 return;
             }
 
             self.data = data[0];
+            callback(null, self.data);
             self.emit('saved', null, self.data);
             return;
         }
@@ -163,11 +166,13 @@ function save () {
         self.once('dataSet', function () {
 
             if (!self.config.options.callGetItem) {
+                callback(null, self.data);
                 self.emit('saved', null, self.data);
                 return;
             }
 
             self.emit('getItem', self.data, function (err, dataItem) {
+                callback(err, dataItem);
                 self.emit('saved', err, dataItem);
             });
         });

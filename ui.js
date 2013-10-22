@@ -195,11 +195,11 @@ function init () {
     }
     
     // handle save
-    self.on('dataUpdated', function () {
-        self.emit('saveCrud');
+    self.on('dataUpdated', function (callback) {
+        self.emit('saveCrud', callback);
     });
-    self.on('save', function () {
-        self.emit('updateData');
+    self.on('save', function (callback) {
+        self.emit('updateData', callback);
     });
 }
 
