@@ -139,7 +139,7 @@ function getTemplateHtml () {
                 refs: getDomRefs.call(self, self.target)
             };
             
-            self.emit('formRendered');
+            self.emit('formRendered', self.target);
         });
     } else {
         
@@ -148,7 +148,7 @@ function getTemplateHtml () {
         self.formCache[self.template._id].dom = self.target;
         self.formCache[self.template._id].refs = getDomRefs.call(self, self.target);
         
-        self.emit('formRendered');
+        self.emit('formRendered', self.target);
     }
 }
 
