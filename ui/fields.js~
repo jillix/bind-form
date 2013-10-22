@@ -96,7 +96,7 @@ function toBoolean(value) {
     return false;
 }
 
-function updateData (callback) {
+function updateData () {
     var self = this;
     
     if (!self.data) {
@@ -137,7 +137,7 @@ function updateData (callback) {
         }
     }
     
-    self.emit('dataUpdated', callback);
+    self.emit('dataUpdated');
 }
 
 function reset (formOnly) {
