@@ -1,5 +1,3 @@
-M.wrap('github/jillix/bind-form/dev/data.js', function (require, module, exports) {
-
 function flattenObject (obj) {
     var toReturn = {};
 
@@ -224,4 +222,3 @@ function init () {
 
 module.exports = init;
 
-return module; });

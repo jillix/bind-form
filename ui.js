@@ -1,9 +1,22 @@
-M.wrap('github/jillix/bind-form/dev/ui.js', function (require, module, exports) {
 // TODO use bind for dom interaction/manipulation
-function elm(d,a){try{var b=document.createElement(d);if("object"===typeof a)for(var c in a)if (!a.hasOwnProperty(c)) return;b.setAttribute(c,a[c]);return b}catch(e){return null}}
-function get(s,c){
-    try{return (c||document).querySelector(s);}
-    catch (err) {
+function elm(d,a) {
+    try {
+        var b = document.createElement(d);
+        if ("object" === typeof a) {
+            for (var c in a) {
+                if (!a.hasOwnProperty(c)) continue;
+                b.setAttribute(c, a[c]);
+            }
+            return b;
+        }
+    } catch (e) {
+        return null;
+    }
+}
+function get(s,c) {
+    try {
+        return (c||document).querySelector(s);
+    } catch (err) {
         return null;
     }
 }
@@ -205,4 +218,3 @@ function init () {
 
 module.exports = init;
 
-return module; });

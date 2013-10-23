@@ -1,4 +1,3 @@
-M.wrap('github/jillix/bind-form/dev/form.js', function (require, module, exports) {
 var Events = require('github/jillix/events');
 var data = require('./data');
 var ui = require('./ui');
@@ -19,7 +18,8 @@ function setTemplate (template, callback) {
     self.emit('find', [template], function (err, templates) {
 
         for (var key in templates) {
-            if (!templates.hasOwnProperty(key)) return;
+            if (!templates.hasOwnProperty(key)) continue;
+
             if (templates[key]._id === template) {
                 self.template = templates[key];
             }
@@ -66,4 +66,3 @@ function init (config) {
 
 module.exports = init;
 
-return module; });

@@ -64,3 +64,10 @@ self.on('saved', function () {});
 ```js
 self.on('removed', function () {});
 ```
+
+## Change Log
+
+### v0.1.0
+
+- First versioned release
+
