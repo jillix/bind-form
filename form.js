@@ -40,6 +40,7 @@ function init (config) {
     var self = this;
     
     self.config = config;
+    config.binds = config.binds || [];
     config.options = config.options || {};
     config.options.dataChanged = config.options.dataChanged || "change";
     
@@ -65,4 +66,3 @@ function init (config) {
 }
 
 module.exports = init;
-

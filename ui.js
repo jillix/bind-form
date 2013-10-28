@@ -178,6 +178,11 @@ function init () {
         return;
     }
     
+    // run the binds
+    for (var i = 0; i < self.config.binds.length; ++i) {
+        Bind.call(self, self.config.binds[i]);
+    }
+    
     // only 'change' and 'input' are valid options
     var dce = ['change', 'input'];
     if (dce.indexOf(self.config.options.dataChanged) === -1) {
@@ -217,4 +222,3 @@ function init () {
 }
 
 module.exports = init;
-
