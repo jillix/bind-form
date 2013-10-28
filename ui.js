@@ -1,3 +1,5 @@
+var Bind = require ("github/jillix/bind");
+    
 // TODO use bind for dom interaction/manipulation
 function elm(d,a) {
     try {
