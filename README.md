@@ -67,6 +67,11 @@ self.on('removed', function () {});
 
 ## Change Log
 
+### v0.1.1
+
+- Fixed displaying Array values in the value input in IE8
+- Added bind dependency and support for `config.binds`
+
 ### v0.1.0
 
 - First versioned release
