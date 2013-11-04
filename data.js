@@ -1,24 +1,44 @@
 function flattenObject (obj) {
-    var toReturn = {};
+    var result = {};
 
     for (var key in obj) {
         if (!obj.hasOwnProperty(key)) continue;
 
         if (typeof obj[key] === 'object' && !(obj[key] instanceof Array)) {
-            var flatObject = flattenObject(obj[key]);
-            for (var x in flatObject) {
-                if (!flatObject.hasOwnProperty(x)) {
+            var flat = flattenObject(obj[key]);
+            for (var x in flat) {
+                if (!flat.hasOwnProperty(x)) {
                      continue;
                 }
 
-                toReturn[key + '.' + x] = flatObject[x];
+                result[key + '.' + x] = flat[x];
             }
         } else {
-            toReturn[key] = obj[key];
+            result[key] = obj[key];
         }
     }
-    return toReturn;
+    return result;
 };
+
+function unflattenObject (flat) {
+    var result = {};
+    var parentObj = result;
+
+    Object.keys(flat).forEach(function(key) {
+        var subkeys = key.split('.');
+        var last = subkeys.pop();
+
+        subkeys.forEach(function(subkey) {
+            parentObj[subkey] = typeof parentObj[subkey] === 'undefined' ? {} : parentObj[subkey];
+            parentObj = parentObj[subkey];
+        });
+
+        parentObj[last] = flat[key];
+        parentObj = result;
+    });
+
+    return result;
+}
 
 function prepareData (data) {
     var self = this;
@@ -136,7 +156,11 @@ function save (callback) {
         crud.d = { $set: crud.d };
     }
 
+    // do an insert if no query
     var isInsert = !crud.q;
+    if (isInsert) {
+        crud.d = unflattenObject(crud.d);
+    }
 
     // do request with the crud module
     self.emit(isInsert ? 'insert' : 'update', crud, function (err, data) {
