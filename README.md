@@ -67,10 +67,15 @@ self.on('removed', function () {});
 
 ## Change Log
 
-### v0.1.1
+### v0.1.3
+ - listen change event if other event is not provided
 
-- Fixed displaying Array values in the value input in IE8
-- Added bind dependency and support for `config.binds`
+### v0.1.2
+ - TODO
+
+### v0.1.1
+ - Fixed displaying Array values in the value input in IE8
+ - Added bind dependency and support for `config.binds`
 
 ### v0.1.0
 
