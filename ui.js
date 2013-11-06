@@ -1,4 +1,4 @@
-var Bind = require ("github/jillix/bind");
+var Bind = require ('github/jillix/bind');
     
 // TODO use bind for dom interaction/manipulation
 function elm(d,a) {
@@ -106,8 +106,8 @@ function getDomRefs (form) {
                 // data change event
                 var dcEvents = [self.config.options.dataChanged];
 
-                // always listen to change
-                if (dcEvents[0] === 'input') {
+                // listen to change if other event is not provided
+                if (dcEvents.length === 0) {
                     dcEvents.push('change');
                 }
 
@@ -128,7 +128,7 @@ function getDomRefs (form) {
                                     fieldValue = this.value;
                             }
 
-                            self.emit("dataChanged", self.template._id, field, fieldValue, this);
+                            self.emit('dataChanged', self.template._id, field, fieldValue, this);
                         }, false);
                     })(field);
                 }
