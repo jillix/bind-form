@@ -71,7 +71,8 @@ self.on('removed', function () {});
  - listen change event if other event is not provided
 
 ### v0.1.2
- - TODO
+
+- When sending create CRUD requests, the CRUD document is unflattened
 
 ### v0.1.1
  - Fixed displaying Array values in the value input in IE8
