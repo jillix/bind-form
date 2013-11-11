@@ -104,7 +104,12 @@ function getDomRefs (form) {
                 domRefs[field].control = '$set';
 
                 // data change event
-                var dcEvents = [self.config.options.dataChanged];
+                var dcEvents = self.config.options.dataChanged;
+                
+                // convert string to array
+                if (typeof dcEvents === "string") {
+                    dcEvents = [dcEvents];
+                }
 
                 // listen to change if other event is not provided
                 if (dcEvents.length === 0) {
@@ -190,12 +195,8 @@ function init () {
         Bind.call(self, self.config.binds[i]);
     }
     
-    // only 'change' and 'input' are valid options
-    var dce = ['change', 'input'];
-    if (dce.indexOf(self.config.options.dataChanged) === -1) {
-        alert('The dataChange option value must be one of: ' + dce.join(', '));
-        return;
-    }
+    // default value for dataChanged
+    self.config.options.dataChanged = self.config.options.dataChanged || [];
 
     // attach cache to module
     self.formCache = formCache;
