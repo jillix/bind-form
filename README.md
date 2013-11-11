@@ -67,6 +67,10 @@ self.on('removed', function () {});
 
 ## Change Log
 
+### v0.1.4
+ - `config.options.dataChanged` can be any event
+ - `config.options.dataChanged` is an `Array` or a `String`
+
 ### v0.1.3
  - listen change event if other event is not provided
 
