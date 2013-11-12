@@ -67,6 +67,9 @@ self.on('removed', function () {});
 
 ## Change Log
 
+### v0.1.5
+ - Replaced `forEach` calls with for loops to be compatible with IE
+
 ### v0.1.4
  - `config.options.dataChanged` can be any event
  - `config.options.dataChanged` is an `Array` or a `String`
