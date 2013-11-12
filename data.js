@@ -1,4 +1,4 @@
-function flattenObject (obj) {
+Okfunction flattenObject (obj) {
     var result = {};
 
     for (var key in obj) {
@@ -24,18 +24,21 @@ function unflattenObject (flat) {
     var result = {};
     var parentObj = result;
 
-    Object.keys(flat).forEach(function(key) {
+    var keys = Object.keys(flat);
+    for (var i = 0; i < keys.length; ++i) {
+        var key = keys[i];
         var subkeys = key.split('.');
         var last = subkeys.pop();
 
-        subkeys.forEach(function(subkey) {
+        for (var ii = 0; ii < subkeys.length; ++ii) {
+            var subkey = subkeys[ii];
             parentObj[subkey] = typeof parentObj[subkey] === 'undefined' ? {} : parentObj[subkey];
             parentObj = parentObj[subkey];
-        });
+        }
 
         parentObj[last] = flat[key];
         parentObj = result;
-    });
+    }
 
     return result;
 }
