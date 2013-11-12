@@ -1,4 +1,4 @@
-Okfunction flattenObject (obj) {
+function flattenObject (obj) {
     var result = {};
 
     for (var key in obj) {
