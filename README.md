@@ -10,6 +10,9 @@ Insert, update and remove for crud.
 
 // ui configuration
 "ui": {
+    //focus the first textbox
+    "autofocus": "true/false" // (default: "false")
+
     // the target of the form html
     "target": ".form-container",
 
@@ -66,6 +69,9 @@ self.on('removed', function () {});
 ```
 
 ## Change Log
+
+### v0.1.6
+- Added autofocus option
 
 ### v0.1.5
  - Replaced `forEach` calls with for loops to be compatible with IE

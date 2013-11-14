@@ -169,6 +169,7 @@ function getTemplateHtml () {
                 refs: getDomRefs.call(self, self.target)
             };
             
+            autoFocus.call(self);
             self.emit('formRendered', self.target);
         });
     } else {
@@ -177,8 +178,22 @@ function getTemplateHtml () {
         self.target.innerHTML = self.formCache[self.template._id].html;
         self.formCache[self.template._id].dom = self.target;
         self.formCache[self.template._id].refs = getDomRefs.call(self, self.target);
-        
+
+        autoFocus.call(self);
         self.emit('formRendered', self.target);
+    }
+}
+
+function autoFocus () {
+    var self = this;
+
+    if (!self.config.ui.autofocus) {
+        return;
+    } else {
+        var target = self.config.ui.target;
+
+        $elem = $(target + ' input[type="number"], ' + target + ' input[type="email"], ' + target + ' input[type="text"], ' + target + ' textarea, ' + target + ' select');
+        $elem.first().focus();
     }
 }
 
