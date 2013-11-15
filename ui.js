@@ -1,3 +1,4 @@
+M.wrap('github/jillix/bind-form/v0.1.6/ui.js', function (require, module, exports) {
 var Bind = require ('github/jillix/bind');
     
 // TODO use bind for dom interaction/manipulation
@@ -169,7 +170,6 @@ function getTemplateHtml () {
                 refs: getDomRefs.call(self, self.target)
             };
             
-            autoFocus.call(self);
             self.emit('formRendered', self.target);
         });
     } else {
@@ -179,7 +179,6 @@ function getTemplateHtml () {
         self.formCache[self.template._id].dom = self.target;
         self.formCache[self.template._id].refs = getDomRefs.call(self, self.target);
 
-        autoFocus.call(self);
         self.emit('formRendered', self.target);
     }
 }
@@ -193,7 +192,11 @@ function autoFocus () {
         var target = self.config.ui.target;
 
         $elem = $(target + ' input[type="number"], ' + target + ' input[type="email"], ' + target + ' input[type="text"], ' + target + ' textarea, ' + target + ' select');
-        $elem.first().focus();
+
+        //TODO find a better sollution
+        setTimeout(function(){
+            $elem.first().focus();
+        }, 0);
     }
 }
 
@@ -242,6 +245,11 @@ function init () {
     self.on('save', function (callback) {
         self.emit('updateData', callback);
     });
+
+    //handle autofocus
+    self.on('formFilled', autoFocus);
 }
 
 module.exports = init;
+
+return module; });
