@@ -67,7 +67,7 @@ function getDomRefs (form) {
         if (selectors.label && (label = getAll(selectors.label, form))) {
             
             for (var i = 0, l = label.length; i < l; ++i) {
-                // TODO handle i18n
+                // handle i18n
                 var labelValue = self.template.schema[field].label;
                 if (typeof labelValue === 'object') {
                     label[i].innerHTML = labelValue[M.getLocale()];
@@ -155,10 +155,21 @@ function getTemplateHtml () {
     
     // get the html
     if (!self.formCache[self.template._id]) {
-        self.link(self.template.options.html, function (err, html) {
-            if (err || html === '') {
-                return;
-            }
+
+        var htmlToGet = self.template.options.html;
+
+        // handle i18n
+        if (htmlToGet === 'object') {
+            htmlToGet = htmlToGet[M.getLocale()];
+        }
+
+        // no HTML, no fun
+        if (!htmlToGet) { return; }
+
+        self.link(htmlToGet, function (err, html) {
+
+            // no HTML, no fun
+            if (err) { return; }
             
             // append form to the dom
             self.target.innerHTML = html;
