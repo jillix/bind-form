@@ -70,6 +70,9 @@ self.on('removed', function () {});
 
 ## Change Log
 
+### v0.1.7
+- Added i18n tmplate HTML support
+
 ### v0.1.6
 - Added autofocus option
 
