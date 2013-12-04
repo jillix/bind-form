@@ -1,4 +1,3 @@
-M.wrap('github/jillix/bind-form/v0.1.6/ui.js', function (require, module, exports) {
 var Bind = require ('github/jillix/bind');
     
 // TODO use bind for dom interaction/manipulation
@@ -159,7 +158,7 @@ function getTemplateHtml () {
         var htmlToGet = self.template.options.html;
 
         // handle i18n
-        if (htmlToGet === 'object') {
+        if (typeof htmlToGet === 'object') {
             htmlToGet = htmlToGet[M.getLocale()];
         }
 
@@ -263,4 +262,3 @@ function init () {
 
 module.exports = init;
 
-return module; });
