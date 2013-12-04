@@ -1,4 +1,3 @@
-M.wrap('github/jillix/bind-form/v0.1.6/ui.js', function (require, module, exports) {
 var Bind = require ('github/jillix/bind');
     
 // TODO use bind for dom interaction/manipulation
@@ -263,4 +262,3 @@ function init () {
 
 module.exports = init;
 
-return module; });
