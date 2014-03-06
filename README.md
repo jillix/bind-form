@@ -70,6 +70,9 @@ self.on('removed', function () {});
 
 ## Change Log
 
+### v0.1.8
+ - Upgrade to Events v0.1.8 and Bind v0.2.1
+
 ### v0.1.7
 - Added i18n template HTML support
 
