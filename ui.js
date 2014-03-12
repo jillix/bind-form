@@ -201,6 +201,10 @@ function finishFormRendering () {
 
     // load the links in the container (if available)
     M(self.links, 'data_links', function(err) {
+        // when links are ready, tell thwm about the template
+        self.on('ready', 'data_links', function() {
+            self.emit('setLinksTemplate', self.template);
+        });
         // tell everybody interested that we are done
         self.emit('formRendered', self.target);
     });
