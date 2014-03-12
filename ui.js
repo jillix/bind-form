@@ -179,18 +179,31 @@ function getTemplateHtml () {
                 html: html,
                 refs: getDomRefs.call(self, self.target)
             };
-            
-            self.emit('formRendered', self.target);
+
+            finishFormRendering.call(self);
         });
     } else {
-        
         // append form to the dom
         self.target.innerHTML = self.formCache[self.template._id].html;
         self.formCache[self.template._id].dom = self.target;
         self.formCache[self.template._id].refs = getDomRefs.call(self, self.target);
 
-        self.emit('formRendered', self.target);
+        finishFormRendering.call(self);
     }
+
+}
+
+function finishFormRendering () {
+    var self = this;
+
+    // search the link container in the DOM containing also the template HTML
+    self.links = get(self.config.ui.targets.links, self.dom);
+
+    // load the links in the container (if available)
+    M(self.links, 'data_links', function(err) {
+        // tell everybody interested that we are done
+        self.emit('formRendered', self.target);
+    });
 }
 
 function autoFocus () {
@@ -212,12 +225,12 @@ function autoFocus () {
 
 function init () {
     var self = this;
-    
+
     // get form target
-    if (!self.config.ui.target || !(self.target = get(self.config.ui.target, self.dom))) {
+    if (!self.config.ui.targets || !self.config.ui.targets.form || !(self.target = get(self.config.ui.targets.form, self.dom))) {
         return;
     }
-    
+
     // run the binds
     for (var i = 0; i < self.config.binds.length; ++i) {
         Bind.call(self, self.config.binds[i]);
