@@ -195,19 +195,35 @@ function getTemplateHtml () {
 
 function finishFormRendering () {
     var self = this;
+    var targets = self.config.ui.targets;
+    var TARGETS_TO_LOAD = Object.keys(targets).length - 1;
 
-    // search the link container in the DOM containing also the template HTML
-    self.links = get(self.config.ui.targets.links, self.dom);
-
-    // load the links in the container (if available)
-    M(self.links, 'data_links', function(err) {
-        // when links are ready, tell thwm about the template
-        self.on('ready', 'data_links', function() {
-            self.emit('setLinksTemplate', self.template);
-        });
-        // tell everybody interested that we are done
+    if (targets['form'] && TARGETS_TO_LOAD == 0) {
         self.emit('formRendered', self.target);
-    });
+        return;
+    }
+
+    for (var target in targets) {
+        if (!targets.hasOwnProperty(target) || target === 'form') continue;
+
+        // search the target container in the DOM containing also the template HTML
+        self[target] = get(targets[target], self.dom);
+
+        // load the target module in the container (if available)
+        M(self[target], target, function(err) {
+            // when module is ready, tell him the template
+            self.on('ready', target, function() {
+                self.emit('setTargetTemplate', self.template);
+            });
+
+            // tell everybody interested that we are done
+            if (!--TARGETS_TO_LOAD) {
+                self.formCache[self.template._id].html = self.target.innerHTML;
+                self.formCache[self.template._id].refs = getDomRefs.call(self, self.target);
+                self.emit('formRendered', self.target);
+            }
+        });
+    }
 }
 
 function autoFocus () {
@@ -278,4 +294,3 @@ function init () {
 }
 
 module.exports = init;
-
