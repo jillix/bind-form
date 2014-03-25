@@ -206,23 +206,37 @@ function finishFormRendering () {
     for (var target in targets) {
         if (!targets.hasOwnProperty(target) || target === 'form') continue;
 
+        // uninit the loaded module
+        if (self.modules[target]) {
+            self.uninit(target);
+            delete self.modules[target];
+        }
+
         // search the target container in the DOM containing also the template HTML
         self[target] = get(targets[target], self.dom);
 
         // load the target module in the container (if available)
-        M(self[target], target, function(err) {
-            // when module is ready, tell him the template
-            self.on('ready', target, function() {
-                self.emit('setTargetTemplate', self.template);
-            });
+        if (self[target]) {
+            (function (target) {
+                M(self[target], target, function(err) {
 
-            // tell everybody interested that we are done
+                    // when module is ready, tell him the template
+                    self.on('ready', target, function() {
+                        self.modules[target] = target;
+                        self.emit('setTargetTemplate', self.template);
+                    });
+
+                    // tell everybody interested that we are done
+                    if (!--TARGETS_TO_LOAD) {
+                        self.emit('formRendered', self.target);
+                    }
+                });
+            })(target);
+        } else {
             if (!--TARGETS_TO_LOAD) {
-                self.formCache[self.template._id].html = self.target.innerHTML;
-                self.formCache[self.template._id].refs = getDomRefs.call(self, self.target);
                 self.emit('formRendered', self.target);
             }
-        });
+        }
     }
 }
 
@@ -258,6 +272,9 @@ function init () {
     
     // default value for dataChanged
     self.config.options.dataChanged = self.config.options.dataChanged || [];
+
+    // default value for modules
+    self.modules = {};
 
     // attach cache to module
     self.formCache = formCache;
