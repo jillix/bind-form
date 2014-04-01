@@ -70,6 +70,9 @@ self.on('removed', function () {});
 
 ## Change Log
 
+### v0.1.9
+ - Upgrade to Events v0.1.9
+
 ### v0.1.8
  - Upgrade to Events v0.1.8 and Bind v0.2.1
 
