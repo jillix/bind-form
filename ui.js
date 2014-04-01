@@ -223,13 +223,13 @@ function finishFormRendering () {
                     // when module is ready, tell him the template
                     self.on('ready', target, function() {
                         self.modules[target] = target;
-                        self.emit('setTargetTemplate', self.template);
-                    });
 
-                    // tell everybody interested that we are done
-                    if (!--TARGETS_TO_LOAD) {
-                        self.emit('formRendered', self.target);
-                    }
+                        // tell everybody interested that we are done
+                        if (!--TARGETS_TO_LOAD) {
+                            self.emit('formRendered', self.target);
+                            self.emit('setTargetTemplate', self.template);
+                        }
+                    });
                 });
             })(target);
         } else {
