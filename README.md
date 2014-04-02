@@ -70,39 +70,48 @@ self.on('removed', function () {});
 
 ## Change Log
 
-### v0.1.10
--Bind-form can now load more modules in the html of a template
--Fixed bug with forms not reacting at SELECT input changes
+### v0.2.0
+
+- Bind-form can now load more modules in the html of a template
+- Fixed bug with forms not reacting at SELECT input changes
 
 ### v0.1.9
- - Upgrade to Events v0.1.9
+
+- Upgrade to Events v0.1.9
 
 ### v0.1.8
- - Upgrade to Events v0.1.8 and Bind v0.2.1
+
+- Upgrade to Events v0.1.8 and Bind v0.2.1
 
 ### v0.1.7
+
 - Added i18n template HTML support
 
 ### v0.1.6
+
 - Added autofocus option
 
 ### v0.1.5
- - Replaced `forEach` calls with for loops to be compatible with IE
+
+- Replaced `forEach` calls with for loops to be compatible with IE
 
 ### v0.1.4
- - `config.options.dataChanged` can be any event
- - `config.options.dataChanged` is an `Array` or a `String`
+
+- `config.options.dataChanged` can be any event
+- `config.options.dataChanged` is an `Array` or a `String`
 
 ### v0.1.3
- - listen change event if other event is not provided
+
+- listen change event if other event is not provided
 
 ### v0.1.2
 
 - When sending create CRUD requests, the CRUD document is unflattened
 
 ### v0.1.1
- - Fixed displaying Array values in the value input in IE8
- - Added bind dependency and support for `config.binds`
+
+- Fixed displaying Array values in the value input in IE8
+- Added bind dependency and support for `config.binds`
 
 ### v0.1.0
 
