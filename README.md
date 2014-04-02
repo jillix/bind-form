@@ -70,6 +70,10 @@ self.on('removed', function () {});
 
 ## Change Log
 
+### v0.1.10
+-Bind-form can now load more modules in the html of a template
+-Fixed bug with forms not reacting at SELECT input changes
+
 ### v0.1.9
  - Upgrade to Events v0.1.9
 

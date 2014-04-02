@@ -103,17 +103,22 @@ function getDomRefs (form) {
                 // this will have $set or $unset values
                 domRefs[field].control = '$set';
 
-                // data change event
-                var dcEvents = self.config.options.dataChanged;
-                
-                // convert string to array
-                if (typeof dcEvents === "string") {
-                    dcEvents = [dcEvents];
-                }
+                // TODO
+                if (value[i].tagName !== 'SELECT') {
+                    // data change event
+                    var dcEvents = self.config.options.dataChanged;
+                    
+                    // convert string to array
+                    if (typeof dcEvents === "string") {
+                        dcEvents = [dcEvents];
+                    }
 
-                // listen to change if other event is not provided
-                if (dcEvents.length === 0) {
-                    dcEvents.push('change');
+                    // listen to change if other event is not provided
+                    if (dcEvents.length === 0) {
+                        dcEvents.push('change');
+                    }
+                } else {
+                    dcEvents = ['change'];
                 }
 
                 // listen each event in dcEvents array
