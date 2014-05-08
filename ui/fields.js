@@ -157,7 +157,11 @@ function reset (formOnly) {
                 select.value = '';
                 for (var j = 0; j < select.children.length; ++j) {
                     if (select.children[j].hasAttribute('selected')) {
-                        select.value = select.children[j].hasAttribute('selected');
+                        if (select.children[j].hasAttribute('value')) {
+                            select.value = select.children[j].getAttribute('value');
+                        } else {
+                            select.value = select.children[j].innerText;
+                        }
                         break;
                     }
                 }
