@@ -143,11 +143,27 @@ function reset (formOnly) {
         if (!fields.hasOwnProperty(field)) continue;
 
         for (var i = 0, l = fields[field].value.length; i < l; ++i) {
+            // textarea inputs
             if (fields[field].value[i].html) {
                 fields[field].value[i].innerHTML = '';
-            } else if (['checkbox', 'radio'].indexOf(fields[field].value[i].getAttribute('type')) > -1) {
+            }
+            // radio and checkbox inputs
+            else if (['checkbox', 'radio'].indexOf(fields[field].value[i].getAttribute('type')) > -1) {
                 fields[field].value[i].checked = false;
-            } else {
+            }
+            // select inputs
+            else if (fields[field].value[i].tagName === 'SELECT') {
+                var select = fields[field].value[i];
+                select.value = '';
+                for (var j = 0; j < select.children.length; ++j) {
+                    if (select.children[j].hasAttribute('selected')) {
+                        select.value = select.children[j].hasAttribute('selected');
+                        break;
+                    }
+                }
+            }
+            // other inputs
+            else {
                 fields[field].value[i].value = '';
             }
         }

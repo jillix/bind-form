@@ -70,6 +70,11 @@ self.on('removed', function () {});
 
 ## Change Log
 
+### v0.2.1
+
+- Updated to Events `v0.1.11` and Bind `v0.2.2`
+- the `selected` option value in a `SELECT` input will be considered when reseting a form
+
 ### v0.2.0
 
 - Bind-form can now load more modules in the html of a template

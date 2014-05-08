@@ -9,8 +9,8 @@
         "/ui/fields.js",
         "/ui/controls.js",
         "/ui/progress.js",
-        "github/jillix/events/v0.1.9",
-        "github/jillix/bind/v0.2.1"
+        "github/jillix/events/v0.1.11",
+        "github/jillix/bind/v0.2.2"
     ]
 }
 
