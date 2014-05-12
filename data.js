@@ -117,19 +117,6 @@ function setField (field, value) {
     self.emit('fieldSet');
 }
 
-// TODO hack for CCTool only
-function getUpdater (field, value) {
-    var self = this;
-
-    if (!self.data || !self.template) {
-        return;
-    }
-
-    if (self.template.schema[field]) {
-        self.data[field] = value;
-    }
-}
-
 function save (callback) {
     var self = this;
     callback = callback || function () {};
@@ -137,12 +124,6 @@ function save (callback) {
     // if no data is set, no data can be saved
     if (!self.data || !self.template) {
         return;
-    }
-
-    // TODO this is custom code!!
-    if (self.data['cc.last_update.by']) {
-        self.send['cc.last_update.by'] = self.data['cc.last_update.by'];
-        self.emit('fieldSet');
     }
 
     // create crud request
@@ -241,7 +222,6 @@ function init () {
         self.on('setField', setField);
         self.on('saveCrud', save);
         self.on('rm', remove);
-        self.on('getUpdater', getUpdater);
     });
 }
 
