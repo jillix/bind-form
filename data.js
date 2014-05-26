@@ -161,7 +161,7 @@ function save (callback) {
 
             self.data = data[0];
             callback(null, self.data);
-            self.emit('saved', null, self.data);
+            self.emit('saved', null, self.data, true);
             return;
         }
 
@@ -226,4 +226,3 @@ function init () {
 }
 
 module.exports = init;
-

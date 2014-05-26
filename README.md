@@ -70,6 +70,9 @@ self.on('removed', function () {});
 
 ## Change Log
 
+### dev
+- Added isInsert boolean argument to `saved` event emit.
+
 ### v0.2.1
 
 - Updated to Events `v0.1.11` and Bind `v0.2.2`
