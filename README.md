@@ -71,7 +71,9 @@ self.on('removed', function () {});
 ## Change Log
 
 ### dev
+
 - Added isInsert boolean argument to `saved` event emit.
+- Emitting `fieldsRendered` immediately after attaching the template HTML. This allows for executing code before the DOM references are gathered (like preparing for i18n inputs).
 
 ### v0.2.1
 

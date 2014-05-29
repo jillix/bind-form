@@ -177,7 +177,10 @@ function getTemplateHtml () {
             
             // append form to the dom
             self.target.innerHTML = html;
-            
+
+            // form fields have been rendered
+            self.emit('fieldsRendered', self.target);
+
             // cache form
             self.formCache[self.template._id] = {
                 dom: self.target,
@@ -190,6 +193,10 @@ function getTemplateHtml () {
     } else {
         // append form to the dom
         self.target.innerHTML = self.formCache[self.template._id].html;
+
+        // form fields have been rendered
+        self.emit('fieldsRendered', self.target);
+
         self.formCache[self.template._id].dom = self.target;
         self.formCache[self.template._id].refs = getDomRefs.call(self, self.target);
 
