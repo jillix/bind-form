@@ -103,9 +103,10 @@ function getDomRefs (form) {
                 // this will have $set or $unset values
                 domRefs[field].control = '$set';
 
-                // TODO
-                if (value[i].tagName !== 'SELECT') {
+                // ignore SELECT tags, Checkboxes and radios
+                if (value[i].tagName !== 'SELECT' && value[i].getAttribute('type') !== 'checkbox' && value[i].getAttribute('type') !== 'radio') {
                     // data change event
+
                     var dcEvents = self.config.options.dataChanged;
                     
                     // convert string to array
@@ -129,7 +130,6 @@ function getDomRefs (form) {
                             var fieldValue;
 
                             // checkboxes need a special treatment
-                            // TODO add radio button support
                             switch (this.getAttribute('type')) {
                                 case 'checkbox':
                                     fieldValue = this.checked;
@@ -323,4 +323,3 @@ function init () {
 }
 
 module.exports = init;
-
