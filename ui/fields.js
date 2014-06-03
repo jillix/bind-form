@@ -37,25 +37,39 @@ function fillForm () {
     self.emit('reset', true);
 
     var fields = self.formCache[self.template._id].refs;
+    var data = JSON.parse(JSON.stringify(self.data));
 
     for (var field in fields) {
         if (!fields.hasOwnProperty(field)) continue;
-        
-        // ignore data if no dom ref is available
-        if (typeof self.data[field] === 'undefined') {
-            continue;
-        }
-        
+
         for (var i = 0, l = fields[field].value.length; i < l; ++i) {
 
             // change value using filters
-            var value = JSON.parse(JSON.stringify(self.data))[field];
+            var value = data[field];
 
             var filterValue = fields[field].value[i].getAttribute('data-filter');
             var filterFunction = findFunction(window, filterValue);
 
             if (typeof filterFunction === 'function') {
-                value = filterFunction(self, self.data, field, value, fields[field].value[i]);
+                value = filterFunction(self, data, field, value, fields[field].value[i]);
+            }
+
+            // consider the undefined values as empty string
+            if (typeof value === 'undefined') {
+                var schemaField = self.template.schema[field];
+                switch (schemaField.type) {
+                    case 'boolean':
+                        value = schemaField.default || false;
+                        break;
+                    case 'number':
+                        value = schemaField.default || 0;
+                        break;
+                    case 'date':
+                        value = schemaField.default === 'now' || !schemaField.default ? '' : schemaField.default;
+                        break;
+                    default:
+                        value = schemaField.default || '';
+                }
             }
 
             // fill data

@@ -72,6 +72,8 @@ self.on('removed', function () {});
 
 ### dev
 
+- Do not ignore missing template fields from data. Letting the filters still do their job. Defaulting to empty string, `false`, or `0` for fields not present in the data.
+- Added support for checkbox and radio button change events.
 - Added isInsert boolean argument to `saved` event emit.
 - Emitting `fieldsRendered` immediately after attaching the template HTML. This allows for executing code before the DOM references are gathered (like preparing for i18n inputs).
 
