@@ -211,7 +211,7 @@ function finishFormRendering () {
     var TARGETS_TO_LOAD = Object.keys(targets).length - 1;
 
     if (targets['form'] && TARGETS_TO_LOAD == 0) {
-        self.emit('formRendered', self.target);
+        self.emit('formRendered', self.target, self.template);
         return;
     }
 
@@ -238,7 +238,7 @@ function finishFormRendering () {
 
                         // tell everybody interested that we are done
                         if (!--TARGETS_TO_LOAD) {
-                            self.emit('formRendered', self.target);
+                            self.emit('formRendered', self.target, self.template);
                             self.emit('setTargetTemplate', self.template);
                         }
                     });
@@ -246,7 +246,7 @@ function finishFormRendering () {
             })(target);
         } else {
             if (!--TARGETS_TO_LOAD) {
-                self.emit('formRendered', self.target);
+                self.emit('formRendered', self.target, self.template);
             }
         }
     }
