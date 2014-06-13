@@ -76,8 +76,14 @@ function fillForm () {
             if (fields[field].value[i].html) {
                 fields[field].value[i].innerHTML = value;
             } else {
-                if (['checkbox', 'radio'].indexOf(fields[field].value[i].getAttribute('type')) > -1) {
+                if (fields[field].value[i].getAttribute('type') === 'checkbox') {
                    fields[field].value[i].checked = toBoolean(value);
+                } else if (fields[field].value[i].getAttribute('type') === 'radio') {
+                    var valAttr = fields[field].value[i].getAttribute('value');
+                    if (typeof value == 'boolean') {
+                        valAttr = toBoolean(valAttr);
+                    }
+                   fields[field].value[i].checked = value == valAttr;
                 } else {
                     fields[field].value[i].value = value;
                 }
