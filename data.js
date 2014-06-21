@@ -117,6 +117,29 @@ function setField (field, value) {
     self.emit('fieldSet');
 }
 
+// adds $set and $unset if the field is enabled or disabled
+function buildUpdateObject (data) {
+    var self = this;
+
+    var obj = {
+        $set: {},
+        $unset: {}
+    }
+    var fields = self.formCache[self.template._id].refs;
+
+    for (var field in fields) {
+        if (!fields.hasOwnProperty(field)) continue;
+
+        if (!fields[field].disabled && data[field]) {
+            obj['$set'][field] = data[field];
+        } else if (fields[field].disabled) {
+            obj['$unset'][field] = '';
+        }
+    }
+
+    return obj;
+}
+
 function save (callback) {
     var self = this;
     callback = callback || function () {};
@@ -137,7 +160,7 @@ function save (callback) {
     if (self.data._id) {
         crud.q = {_id: self.data._id};
         delete crud.d._id;
-        crud.d = { $set: crud.d };
+        crud.d = buildUpdateObject.call(self, crud.d);
     }
 
     // do an insert if no query

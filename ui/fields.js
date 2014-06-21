@@ -42,6 +42,9 @@ function fillForm () {
     for (var field in fields) {
         if (!fields.hasOwnProperty(field)) continue;
 
+        // enable field
+        enableField.call(self, field);
+
         for (var i = 0, l = fields[field].value.length; i < l; ++i) {
 
             // change value using filters
@@ -70,6 +73,11 @@ function fillForm () {
                     default:
                         value = schemaField.default || '';
                 }
+
+                // disable field
+                if (!fields[field].disabled) {
+                    disableField.call(self, field, true);
+                }
             }
 
             // fill data
@@ -92,6 +100,64 @@ function fillForm () {
     }
     
     self.emit('formFilled');
+}
+function enableField (field) {
+    var self = this;
+    var fields = self.formCache[self.template._id].refs;
+
+    if (!fields[field]) return;
+    if (!fields[field].disabled) return;
+
+    fields[field].disabled = false;
+
+    for (var i = 0, l = fields[field].value.length; i < l; ++i) {
+
+        fields[field].value[i].readOnly = false;
+        self.emit('fieldEnabled', field, fields[field].value[i]);
+    }
+}
+
+function disableField (field, stopChange) {
+    var self = this;
+    var fields = self.formCache[self.template._id].refs;
+
+    if (!fields[field]) return;
+    if (fields[field].disabled) return;
+
+    for (var i = 0, l = fields[field].value.length; i < l; ++i) {
+
+        if (fields[field].value[i].tagName === 'INPUT' || fields[field].value[i].tagName === 'TEXTAREA') {
+
+            // disable inputs of type text or email
+            if (fields[field].value[i].tagName === 'INPUT' && fields[field].value[i].getAttribute('type') !== 'text') {
+                return;
+            }
+
+            // disable empty fields
+            fields[field].value[i].readOnly = true;
+            fields[field].disabled = true;
+
+            // clear the value in the input
+            if (fields[field].value[i].tagName === 'INPUT') {
+                fields[field].value[i].value = '';
+            } else {
+                fields[field].value[i].innerHTML = '';
+            }
+
+            // add click handler
+            (function (field, value) {
+                function listener () {
+                    enableField.call(self, field);
+                    value.removeEventListener('click', listener, false);
+                }
+                value.addEventListener('click', listener, false);
+            })(field, fields[field].value[i]);
+        }
+    }
+
+    if (!stopChange) {
+        self.emit('dataChanged');
+    }
 }
 
 function toBoolean(value) {
@@ -131,8 +197,8 @@ function updateData (callback) {
                 } else {
                     self.data[field] = value;
                     
-                    // ingore empty fields
-                    if (value !== '') {
+                    // ingore empty and disabled fields
+                    if (value !== '' || fields[field].disabled) {
                         self.send[field] = value;
                     }
                 }
@@ -204,7 +270,7 @@ function init () {
     self.on('dataSet', fillForm);
     self.on('fieldSet', fillForm);
     self.on('reset', reset);
+    self.on('disableField', disableField);
 }
 
 module.exports = init;
-
