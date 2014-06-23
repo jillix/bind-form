@@ -133,7 +133,7 @@ function buildUpdateObject (data) {
         if (!fields[field].disabled && data[field]) {
             obj['$set'][field] = data[field];
         } else if (fields[field].disabled) {
-            obj['$unset'][field] = '';
+            obj['$unset'][field] = '1';
         }
     }
 
@@ -249,3 +249,4 @@ function init () {
 }
 
 module.exports = init;
+
