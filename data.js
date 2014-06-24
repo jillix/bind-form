@@ -185,6 +185,7 @@ function save (callback) {
             self.data = data[0];
             callback(null, self.data);
             self.emit('saved', null, self.data, true);
+            self.emit('dataSet', self.data);
             return;
         }
 

@@ -42,9 +42,6 @@ function fillForm () {
     for (var field in fields) {
         if (!fields.hasOwnProperty(field)) continue;
 
-        // enable field
-        enableField.call(self, field);
-
         for (var i = 0, l = fields[field].value.length; i < l; ++i) {
 
             // change value using filters
@@ -227,6 +224,9 @@ function reset (formOnly) {
     // reset value fields
     for (var field in fields) {
         if (!fields.hasOwnProperty(field)) continue;
+
+        // enable all fields
+        enableField.call(self, field);
 
         for (var i = 0, l = fields[field].value.length; i < l; ++i) {
             // textarea inputs
