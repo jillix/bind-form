@@ -182,7 +182,7 @@ function save (callback) {
                 return;
             }
 
-            self.data = data[0];
+            self.data = flattenObject(data[0]);
             callback(null, self.data);
             self.emit('saved', null, self.data, true);
             self.emit('dataSet', self.data);
@@ -250,4 +250,3 @@ function init () {
 }
 
 module.exports = init;
-
