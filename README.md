@@ -72,6 +72,12 @@ self.on('removed', function () {});
 
 ### dev
 
+- Add new features and fixes here
+
+### 0.3.0
+
+- Added remove field functionality
+- Added template parameter to `formRendered` event.
 - Do not ignore missing template fields from data. Letting the filters still do their job. Defaulting to empty string, `false`, or `0` for fields not present in the data.
 - Added support for checkbox and radio button change events.
 - Added isInsert boolean argument to `saved` event emit.
