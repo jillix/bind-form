@@ -137,6 +137,13 @@ function buildUpdateObject (data) {
         }
     }
 
+    // empty $set or $unset object are invalid in a mongo update document
+    for (var key in obj) {
+        if (!Object.keys(obj[key]).length) {
+            delete obj[key];
+        }
+    }
+
     return obj;
 }
 
@@ -249,3 +256,4 @@ function init () {
 }
 
 module.exports = init;
+
