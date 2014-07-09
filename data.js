@@ -133,7 +133,7 @@ function buildUpdateObject (data) {
         if (!fields[field].disabled && data[field]) {
             obj['$set'][field] = data[field];
         } else if (fields[field].disabled) {
-            obj['$unset'][field] = '';
+            obj['$unset'][field] = '1';
         }
     }
 
@@ -189,9 +189,10 @@ function save (callback) {
                 return;
             }
 
-            self.data = data[0];
+            self.data = flattenObject(data[0]);
             callback(null, self.data);
             self.emit('saved', null, self.data, true);
+            self.emit('dataSet', self.data);
             return;
         }
 
