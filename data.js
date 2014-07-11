@@ -130,7 +130,7 @@ function buildUpdateObject (data) {
     for (var field in fields) {
         if (!fields.hasOwnProperty(field)) continue;
 
-        if (!fields[field].disabled && data[field]) {
+        if (!fields[field].disabled && data.hasOwnProperty(field)) {
             obj['$set'][field] = data[field];
         } else if (fields[field].disabled) {
             obj['$unset'][field] = '1';
@@ -257,4 +257,3 @@ function init () {
 }
 
 module.exports = init;
-
