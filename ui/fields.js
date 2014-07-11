@@ -135,11 +135,7 @@ function disableField (field, stopChange) {
             fields[field].disabled = true;
 
             // clear the value in the input
-            if (fields[field].value[i].tagName === 'INPUT') {
-                fields[field].value[i].value = '';
-            } else {
-                fields[field].value[i].innerHTML = '';
-            }
+            fields[field].value[i].value = '';
 
             // add click handler
             (function (field, value) {
