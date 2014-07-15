@@ -110,6 +110,7 @@ function enableField (field) {
     for (var i = 0, l = fields[field].value.length; i < l; ++i) {
 
         fields[field].value[i].readOnly = false;
+        fields[field].value[i].removeAttribute("field-removed");
         self.emit('fieldEnabled', field, fields[field].value[i]);
     }
 }
@@ -136,6 +137,9 @@ function disableField (field, stopChange) {
 
             // clear the value in the input
             fields[field].value[i].value = '';
+
+            // set an attribute to the input to diferntiate it from the others
+            fields[field].value[i].setAttribute("field-removed", "true");
 
             // add click handler
             (function (field, value) {
