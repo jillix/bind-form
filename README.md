@@ -82,6 +82,11 @@ self.on('removed', function () {});
 - Added support for checkbox and radio button change events.
 - Added isInsert boolean argument to `saved` event emit.
 - Emitting `fieldsRendered` immediately after attaching the template HTML. This allows for executing code before the DOM references are gathered (like preparing for i18n inputs).
+- Updated to Events `v0.3.0` and Bind `v0.3.0`
+
+### v0.2.2
+
+- Fixed default value for fields when min and max exist
 
 ### v0.2.1
 
