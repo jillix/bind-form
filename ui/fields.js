@@ -62,7 +62,7 @@ function fillForm () {
                         value = schemaField.default || false;
                         break;
                     case 'number':
-                        value = schemaField.default || 0;
+                        value = ( schemaField.min || schemaField.max ) ? '' : (schemaField.default || 0);
                         break;
                     case 'date':
                         value = schemaField.default === 'now' || !schemaField.default ? '' : schemaField.default;
