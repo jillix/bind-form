@@ -122,6 +122,12 @@ function disableField (field, stopChange) {
     if (!fields[field]) return;
     if (fields[field].disabled) return;
 
+    var schemaField = self.template.schema[field];
+    // check if the field has some sort of validation
+    if (schemaField.hasOwnProperty("min") || schemaField.hasOwnProperty("max") || schemaField.hasOwnProperty("minLength") || schemaField.hasOwnProperty("maxLength")) {
+        return;
+    }
+
     for (var i = 0, l = fields[field].value.length; i < l; ++i) {
 
         if (fields[field].value[i].tagName === 'INPUT' || fields[field].value[i].tagName === 'TEXTAREA') {
