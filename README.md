@@ -73,6 +73,9 @@ self.on('removed', function () {});
 ### dev
 
 - Add new features and fixes here
+### 0.3.1
+
+- Do not disable fields that have a modm validation
 
 ### 0.3.0
 
