@@ -148,13 +148,15 @@ function disableField (field, stopChange) {
             fields[field].value[i].setAttribute("field-removed", "true");
 
             // add click handler
-            (function (field, value) {
+            (function (field, index) {
+                var value = fields[field].value[index];
                 function listener () {
                     enableField.call(self, field);
                     value.removeEventListener('click', listener, false);
                 }
                 value.addEventListener('click', listener, false);
-            })(field, fields[field].value[i]);
+                fields[field].listeners[index] = listener;
+            })(field, i);
         }
     }
 
@@ -233,8 +235,15 @@ function reset (formOnly) {
 
         // enable all fields
         enableField.call(self, field);
+        fields[field].listeners = fields[field].listeners || [];
 
         for (var i = 0, l = fields[field].value.length; i < l; ++i) {
+            // remove all click listeners
+            if (fields[field].listeners[i]) {
+                fields[field].value[i].removeEventListener('click', fields[field].listeners[i], false);
+                fields[field].listeners[i] = null;
+            }
+
             // textarea inputs
             if (fields[field].value[i].html) {
                 fields[field].value[i].innerHTML = '';
