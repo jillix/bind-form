@@ -70,82 +70,66 @@ self.on('removed', function () {});
 
 ## Change Log
 
-### dev
+### 0.3.4
+ - Broadcast save errors on update queries;
 
-- Broadcast save errors on update queries;
-- Add new features and fixes here
+### 0.3.3
+ - Fixed small memory leak caused by click events that were not removed
 
 ### 0.3.2
-
-- Updated to Bind `v0.3.1`
+ - Updated to Bind `v0.3.1`
 
 ### 0.3.1
-
-- Do not disable fields that have a modm validation
+ - Do not disable fields that have a modm validation
 
 ### 0.3.0
-
-- Added remove field functionality
-- Added template parameter to `formRendered` event.
-- Do not ignore missing template fields from data. Letting the filters still do their job. Defaulting to empty string, `false`, or `0` for fields not present in the data.
-- Added support for checkbox and radio button change events.
-- Added isInsert boolean argument to `saved` event emit.
-- Emitting `fieldsRendered` immediately after attaching the template HTML. This allows for executing code before the DOM references are gathered (like preparing for i18n inputs).
-- Updated to Events `v0.3.0` and Bind `v0.3.0`
+ - Added remove field functionality
+ - Added template parameter to `formRendered` event.
+ - Do not ignore missing template fields from data. Letting the filters still do their job. Defaulting to empty string, `false`, or `0` for fields not present in the data.
+ - Added support for checkbox and radio button change events.
+ - Added isInsert boolean argument to `saved` event emit.
+ - Emitting `fieldsRendered` immediately after attaching the template HTML. This allows for executing code before the DOM references are gathered (like preparing for i18n inputs).
+ - Updated to Events `v0.3.0` and Bind `v0.3.0`
 
 ### v0.2.2
-
-- Fixed default value for fields when min and max exist
+ - Fixed default value for fields when min and max exist
 
 ### v0.2.1
-
-- Updated to Events `v0.1.11` and Bind `v0.2.2`
-- the `selected` option value in a `SELECT` input will be considered when reseting a form
+ - Updated to Events `v0.1.11` and Bind `v0.2.2`
+ - the `selected` option value in a `SELECT` input will be considered when reseting a form
 
 ### v0.2.0
-
-- Bind-form can now load more modules in the html of a template
-- Fixed bug with forms not reacting at SELECT input changes
+ - Bind-form can now load more modules in the html of a template
+ - Fixed bug with forms not reacting at SELECT input changes
 
 ### v0.1.9
-
-- Upgrade to Events v0.1.9
+ - Upgrade to Events v0.1.9
 
 ### v0.1.8
-
-- Upgrade to Events v0.1.8 and Bind v0.2.1
+ - Upgrade to Events v0.1.8 and Bind v0.2.1
 
 ### v0.1.7
-
-- Added i18n template HTML support
+ - Added i18n template HTML support
 
 ### v0.1.6
-
-- Added autofocus option
+ - Added autofocus option
 
 ### v0.1.5
-
-- Replaced `forEach` calls with for loops to be compatible with IE
+ - Replaced `forEach` calls with for loops to be compatible with IE
 
 ### v0.1.4
-
-- `config.options.dataChanged` can be any event
-- `config.options.dataChanged` is an `Array` or a `String`
+ - `config.options.dataChanged` can be any event
+ - `config.options.dataChanged` is an `Array` or a `String`
 
 ### v0.1.3
-
-- listen change event if other event is not provided
+ - listen change event if other event is not provided
 
 ### v0.1.2
-
-- When sending create CRUD requests, the CRUD document is unflattened
+ - When sending create CRUD requests, the CRUD document is unflattened
 
 ### v0.1.1
-
-- Fixed displaying Array values in the value input in IE8
-- Added bind dependency and support for `config.binds`
+ - Fixed displaying Array values in the value input in IE8
+ - Added bind dependency and support for `config.binds`
 
 ### v0.1.0
-
-- First versioned release
-
+ - First versioned release
