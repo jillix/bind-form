@@ -72,6 +72,7 @@ self.on('removed', function () {});
 
 ### dev
 
+- Broadcast save errors on update queries;
 - Add new features and fixes here
 
 ### 0.3.2

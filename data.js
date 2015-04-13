@@ -198,6 +198,12 @@ function save (callback) {
 
         // for update queries
 
+        if (err) {
+            callback("Update error: " + err);
+            self.emit('saved', err);
+            return;
+        }
+
         self.once('dataSet', function () {
 
             if (!self.config.options.callGetItem) {
