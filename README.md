@@ -70,6 +70,10 @@ self.on('removed', function () {});
 
 ## Change Log
 
+### 0.4.0
+ - transferred module to the new jxMono organization
+ - updated Bind to `v0.4.0`, Events to `v0.4.0`
+
 ### 0.3.4
  - Broadcast save errors on update queries;
 
