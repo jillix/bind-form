@@ -1,4 +1,4 @@
-var Bind = require ('github/jillix/bind');
+var Bind = require ('github/jxmono/bind');
     
 // TODO use bind for dom interaction/manipulation
 function elm(d,a) {

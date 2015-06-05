@@ -1,4 +1,4 @@
-var Events = require('github/jillix/events');
+var Events = require('github/jxmono/events');
 var data = require('./data');
 var ui = require('./ui');
 
