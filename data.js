@@ -50,14 +50,14 @@ function prepareData (data) {
     if (self.template.options && self.template.options.html && !self.formCache[self.template._id]) {
         self.once('formRendered', function () {
             self.data = flattenObject(data);
-            self.emit('dataSet', self.data);
+            self.emit('dataSet', self.data, self.template._id);
         });
         
         return;
     }
     
     self.data = flattenObject(data);
-    self.emit('dataSet', self.data);
+    self.emit('dataSet', self.data, self.template._id);
 }
 
 function setData (data, query) {
@@ -192,7 +192,7 @@ function save (callback) {
             self.data = flattenObject(data[0]);
             callback(null, self.data);
             self.emit('saved', null, self.data, true);
-            self.emit('dataSet', self.data);
+            self.emit('dataSet', self.data, self.template._id);
             return;
         }
 
