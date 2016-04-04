@@ -70,6 +70,9 @@ self.on('removed', function () {});
 
 ## Change Log
 
+### 0.4.1
+ - `dataSet` event is emited also with the template ID of the item set. Therefore handlers can have the signature: `function(data, templateId))`
+
 ### 0.4.0
  - transferred module to the new jxMono organization
  - updated Bind to `v0.4.0`, Events to `v0.4.0`
